@@ -1,0 +1,1 @@
+insert into trainingplan(id) values (3)
