@@ -13,8 +13,9 @@ import java.time.LocalDateTime;
 public class TrainingPlanEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-            @Column
+            @Column(name = "id")
     Long id;
+    @Column(name = "trainingdate")
     LocalDateTime trainigDate;
 
 
