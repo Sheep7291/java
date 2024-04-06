@@ -1,2 +1,2 @@
 ALTER TABLE trainingplan
-                                            ADD trainingdate Date
+    ADD trainingdate DATE;

@@ -4,4 +4,10 @@ databaseChangeLog:
   - include:
       file: classpath:/db/changelog/changes/002-add-date-schema.sql
   - include:
-      file: classpath:/db/changelog/changes/003-add-insert.sql
+      file: classpath:/db/changelog/changes/003-add-status-of-trainig.sql
+  - include:
+      file: classpath:/db/changelog/changes/004-add-insert.sql
+  - include:
+      file: classpath:/db/changelog/changes/005-create-exercise-table-schema.sql
+  - include:
+      file: classpath:/db/changelog/changes/006-create-foreign-keys.sql
