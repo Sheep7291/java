@@ -13,13 +13,12 @@ import java.util.List;
 @Table(name = "trainingplan")
 public class TrainingPlanEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     Long id;
     @Column(name = "trainingdate")
-    LocalDateTime trainigDate;
+    LocalDateTime trainingDate;
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "trainingPlanEntityId", updatable = false)
+    @JoinColumn(name = "training_plan_entity_id", updatable = false)
     List<Exercise> exercise;
     @Enumerated(EnumType.STRING)
     @Column(name = "statusoftraining")

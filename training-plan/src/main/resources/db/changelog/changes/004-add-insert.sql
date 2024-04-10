@@ -1,1 +1,0 @@
-insert into trainingplan(trainingdate, statusoftraining) values (CURRENT_DATE, 'DONE')

@@ -6,8 +6,10 @@ databaseChangeLog:
   - include:
       file: classpath:/db/changelog/changes/003-add-status-of-trainig.sql
   - include:
-      file: classpath:/db/changelog/changes/004-add-insert.sql
+      file: classpath:/db/changelog/changes/004-create-exercise-table-schema.sql
   - include:
-      file: classpath:/db/changelog/changes/005-create-exercise-table-schema.sql
+      file: classpath:/db/changelog/changes/005-create-foreign-keys.sql
   - include:
-      file: classpath:/db/changelog/changes/006-create-foreign-keys.sql
+      file: classpath:/db/changelog/changes/006-insert-into-training-plan.sql
+  - include:
+      file: classpath:/db/changelog/changes/007-insert-data.sql

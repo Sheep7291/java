@@ -1,0 +1,1 @@
+insert into trainingplan(id, trainingdate, statusoftraining) values(1, CURRENT_DATE, 'DONE')
