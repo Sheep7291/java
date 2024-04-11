@@ -8,17 +8,17 @@ import lombok.Data;
 public class Exercise {
     @Id
     @Column(name = "id")
-    int id;
+    private Long id;
     @Column(name = "training_plan_entity_id")
-    int trainingPlanEntityId;
+    private Long trainingPlanEntityId;
     @Column(name = "name_of_exercise")
-    String nameOfExcercise;
+    private String nameOfExcercise;
     @Column(name = "range_of_reps")
     String rangeOfReps;
     @Column(name = "sets")
-    int sets;
+    private int sets;
     @Column(name = "break_between_sets")
-    String breakBetweenSets;
+    private String breakBetweenSets;
     @Column(name = "url_to_exercise")
-    String urlToExercise;
+    private String urlToExercise;
 }
