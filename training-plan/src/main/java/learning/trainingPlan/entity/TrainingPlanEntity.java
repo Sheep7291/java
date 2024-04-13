@@ -16,7 +16,7 @@ public class TrainingPlanEntity {
     private Long id;
     @Column(name = "trainingdate")
     private LocalDateTime trainingDate;
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "training_plan_entity_id", updatable = false)
     private List<Exercise> exercise;
     @Enumerated(EnumType.STRING)

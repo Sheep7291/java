@@ -9,5 +9,7 @@ import java.util.List;
 public interface TrainingPlanMapper {
     List<TrainingPlanDTO> fromTrainingPLanEntityListToTrainingPlanDTOList(List<TrainingPlanEntity> trainingPlanEntityList);
 
-    TrainingPlanDTO TrainingPlanEntityToTrainingPlanDTO(TrainingPlanEntity trainingPlanEntity);
+    TrainingPlanDTO trainingPlanEntityToTrainingPlanDTO(TrainingPlanEntity trainingPlanEntity);
+    List<TrainingPlanEntity> fromTrainingPlanDTOListTOtrainingPLanEntity(List<TrainingPlanDTO> trainingPlanDTOList);
+    TrainingPlanEntity trainingPlanDTOToTrainingPlanEntity(TrainingPlanDTO trainingPlanDTO);
 }
