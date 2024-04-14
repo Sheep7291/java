@@ -10,6 +10,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -24,5 +25,12 @@ public class TrainingPlanService {
 
     public void createTrainingPlan(TrainingPlanDTO trainingPlanDTO){
         trainingPlanRepository.save(trainingPlanMapper.trainingPlanDTOToTrainingPlanEntity(trainingPlanDTO));
+    }
+
+    public void updateTrainingPlan(TrainingPlanDTO trainingPlanDTO) {
+        TrainingPlanEntity trainingPlanEntity = trainingPlanRepository.findById(trainingPlanDTO.getId())
+                .orElseThrow(() -> new NoSuchElementException("Training plan not found with ID: " + trainingPlanDTO.getId()));;
+        trainingPlanMapper.updateTrainingPlanFromDTO( trainingPlanDTO, trainingPlanEntity);
+        trainingPlanRepository.save(trainingPlanEntity);
     }
 }

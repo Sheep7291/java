@@ -23,4 +23,9 @@ public class TrainingPlanController {
     public void createTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO){
         trainingPlanService.createTrainingPlan( trainingPlanDTO);
     }
+
+    @PutMapping("")
+    public void updateTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO){
+        trainingPlanService.updateTrainingPlan(trainingPlanDTO);
+    }
 }
