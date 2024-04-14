@@ -7,13 +7,18 @@ import lombok.Data;
 @Entity
 public class Exercise {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    int id;
-    int trainingPlanEntityId;
-    String nameOfExcercise;
+    private Long id;
+    @Column(name = "training_plan_entity_id")
+    private Long trainingPlanEntityId;
+    @Column(name = "name_of_exercise")
+    private String nameOfExcercise;
+    @Column(name = "range_of_reps")
     String rangeOfReps;
-    int sets;
-    String breakBetweenSets;
-    String urlToExercise;
+    @Column(name = "sets")
+    private int sets;
+    @Column(name = "break_between_sets")
+    private String breakBetweenSets;
+    @Column(name = "url_to_exercise")
+    private String urlToExercise;
 }

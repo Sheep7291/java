@@ -3,7 +3,6 @@ package learning.trainingPlan.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Generated;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,16 +12,15 @@ import java.util.List;
 @Table(name = "trainingplan")
 public class TrainingPlanEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
     @Column(name = "trainingdate")
-    LocalDateTime trainigDate;
-    @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "trainingPlanEntityId", updatable = false)
-    List<Exercise> exercise;
+    private LocalDateTime trainingDate;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "training_plan_entity_id", updatable = false)
+    private List<Exercise> exercise;
     @Enumerated(EnumType.STRING)
     @Column(name = "statusoftraining")
-    StatusOfTrainig statusOfTraining;
+    private StatusOfTraining statusOfTraining;
 
 }
