@@ -1,9 +1,9 @@
 package learning.trainingPlan.controller;
 
 import learning.trainingPlan.dto.TrainingPlanDTO;
-import learning.trainingPlan.entity.TrainingPlanEntity;
 import learning.trainingPlan.service.TrainingPlanService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,12 +20,20 @@ public class TrainingPlanController {
     }
 
     @PostMapping("")
-    public void createTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO){
+    public ResponseEntity<String> createTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO){
         trainingPlanService.createTrainingPlan( trainingPlanDTO);
+        return ResponseEntity.ok("Training Plan Added successfully");
     }
 
     @PutMapping("")
-    public void updateTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO){
+    public ResponseEntity<String> updateTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO){
         trainingPlanService.updateTrainingPlan(trainingPlanDTO);
+        return ResponseEntity.ok("Training Plan modified successfully");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTrainingPlan(@PathVariable Long id){
+        trainingPlanService.deleteTrainingPLan(id);
+        return ResponseEntity.ok("Training Plan Deleted successfully!");
     }
 }
