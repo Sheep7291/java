@@ -4,7 +4,7 @@ package learning.trainingPlan.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -15,7 +15,7 @@ public class TrainingPlanEntity {
     @Column(name = "id")
     private Long id;
     @Column(name = "trainingdate")
-    private LocalDateTime trainingDate;
+    private LocalDate trainingDate;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "training_plan_entity_id", updatable = false)
     private List<Exercise> exercise;

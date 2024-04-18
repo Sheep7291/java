@@ -3,14 +3,14 @@ package learning.trainingPlan.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
 
 public class TrainingPlanDTO {
     private Long id;
-    private LocalDateTime trainingDate;
+    private LocalDate trainingDate;
     private List<Exercise> exercise;
     private StatusOfTraining statusOfTraining;
 }

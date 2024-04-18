@@ -31,6 +31,12 @@ public class TrainingPlanController {
         return ResponseEntity.ok("Training Plan modified successfully");
     }
 
+    @PutMapping("/move/{days}")
+    public ResponseEntity<String> moveTrainingPlans(@PathVariable int days){
+        trainingPlanService.moveTrainingPlansByDays(days);
+        return ResponseEntity.ok("Training Plan moved successfully!");
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTrainingPlan(@PathVariable Long id){
         trainingPlanService.deleteTrainingPLan(id);
