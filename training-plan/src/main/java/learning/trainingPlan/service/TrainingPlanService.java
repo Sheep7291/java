@@ -9,7 +9,9 @@ import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -35,5 +37,21 @@ public class TrainingPlanService {
     public void deleteTrainingPLan(Long id) {
         trainingPlanRepository.findById(id).orElseThrow(() -> new TrainingPlanNotFoundException("Training plan not found with ID: " + id));
         trainingPlanRepository.deleteById(id);
+    }
+
+    public void moveTrainingPlansByDays(int days) {
+        LocalDate localDate = LocalDate.now();
+        List<TrainingPlanEntity> trainingPlanEntityList = trainingPlanRepository.findByTrainingDateAfter(localDate);
+        trainingPlanEntityList = trainingPlanEntityList.
+                stream().
+                map(trainingPlanEntity -> {
+                    trainingPlanEntity
+                            .setTrainingDate(trainingPlanEntity
+                                    .getTrainingDate().
+                                    plusDays(days));
+                    return trainingPlanEntity;
+                })
+                .collect(Collectors.toList());
+        trainingPlanRepository.saveAll(trainingPlanEntityList);
     }
 }
