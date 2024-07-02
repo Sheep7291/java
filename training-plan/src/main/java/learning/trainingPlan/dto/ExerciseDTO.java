@@ -3,7 +3,7 @@ package learning.trainingPlan.dto;
 import lombok.Data;
 
 @Data
-public class Exercise {
+public class ExerciseDTO {
     private Long id;
     private Long trainingPlanEntityId;
     private String nameOfExcercise;
