@@ -19,6 +19,7 @@ public class TrainingPlanService {
     final private TrainingPlanRepository trainingPlanRepository;
     private final TrainingPlanMapper trainingPlanMapper = Mappers.getMapper(TrainingPlanMapper.class);
 
+
     public List<TrainingPlanDTO> getTrainingPlans() {
         return trainingPlanMapper.fromTrainingPLanEntityListToTrainingPlanDTOList(trainingPlanRepository.findFirst10ByOrderById());
     }

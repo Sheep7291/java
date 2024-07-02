@@ -11,6 +11,6 @@ import java.util.List;
 public class TrainingPlanDTO {
     private Long id;
     private LocalDate trainingDate;
-    private List<Exercise> exercise;
+    private List<ExerciseDTO> exerciseDTO;
     private StatusOfTraining statusOfTraining;
 }
