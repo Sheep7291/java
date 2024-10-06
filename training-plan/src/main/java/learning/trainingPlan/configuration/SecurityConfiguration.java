@@ -2,16 +2,14 @@ package learning.trainingPlan.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 public class SecurityConfiguration {
@@ -26,24 +24,30 @@ public class SecurityConfiguration {
        http
                .csrf(csrf-> csrf.disable())
                .authorizeHttpRequests(authorize -> {
-                   authorize.requestMatchers("api/trainingPlans/**").permitAll();
+                   authorize.requestMatchers(HttpMethod.GET, "/api/trainingPlans").permitAll();
+                   authorize.requestMatchers(HttpMethod.GET, "api/trainingPlans/countries").permitAll();
+                   authorize.requestMatchers(HttpMethod.PUT,"/api/trainingPlans").hasRole("ADMIN");
+                   authorize.requestMatchers(HttpMethod.POST,"/api/trainingPlans").hasRole("ADMIN");
+                   authorize.requestMatchers(HttpMethod.PUT,"/api/trainingPlans/move/{days}").hasRole("ADMIN");
+                   authorize.requestMatchers(HttpMethod.POST,"/api/trainingPlans/exercises").hasRole("ADMIN");
+                   authorize.requestMatchers(HttpMethod.DELETE,"/api/trainingPlans/{id}").hasRole("ADMIN");
                    authorize.anyRequest().authenticated();
                }).httpBasic(Customizer.withDefaults());
        return http.build();
     }
     @Bean
     public InMemoryUserDetailsManager userDetailsService(){
-        UserDetails user1 = User.builder()
+        var user1 = User.builder()
                 .username("test1")
                 .password(passwordEncoder().encode("test"))
                 .roles("USER")
                 .build();
-        UserDetails user2 = User.builder()
+        var user2 = User.builder()
                 .username("test2")
                 .password(passwordEncoder().encode("test"))
                 .roles("USER")
                 .build();
-        UserDetails user3 = User.builder()
+        var user3 = User.builder()
                 .username("test3")
                 .password(passwordEncoder().encode("test"))
                 .roles("ADMIN")
