@@ -1,5 +1,5 @@
 CREATE TABLE Exercise(
-id INTEGER AUTO_INCREMENT PRIMARY KEY,
+id SERIAL PRIMARY KEY,
 training_plan_entity_id INTEGER NOT NULL,
 name_of_exercise VARCHAR(255),
 range_of_reps VARCHAR(255),
