@@ -13,3 +13,7 @@ databaseChangeLog:
       file: classpath:/db/changelog/changes/006-insert-into-training-plan.sql
   - include:
       file: classpath:/db/changelog/changes/007-insert-data.sql
+  - include:
+      file: classpath:/db/changelog/changes/008-create-user-table.sql
+  - include:
+      file: classpath:/db/changelog/changes/009-insert-user.sql

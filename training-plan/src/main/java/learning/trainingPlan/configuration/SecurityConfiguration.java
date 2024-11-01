@@ -1,11 +1,17 @@
 package learning.trainingPlan.configuration;
 
+import learning.trainingPlan.service.TrainingPlanUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -14,45 +20,51 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfiguration {
 
+    private final TrainingPlanUserService trainingPlanUserService;
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    public SecurityConfiguration(TrainingPlanUserService trainingPlanUserService){
+        this.trainingPlanUserService = trainingPlanUserService;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-       http
-               .csrf(csrf-> csrf.disable())
-               .authorizeHttpRequests(authorize -> {
-                   authorize.requestMatchers(HttpMethod.GET, "/api/trainingPlans").permitAll();
-                   authorize.requestMatchers(HttpMethod.GET, "api/trainingPlans/countries").permitAll();
-                   authorize.requestMatchers(HttpMethod.PUT,"/api/trainingPlans").hasRole("ADMIN");
-                   authorize.requestMatchers(HttpMethod.POST,"/api/trainingPlans").hasRole("ADMIN");
-                   authorize.requestMatchers(HttpMethod.PUT,"/api/trainingPlans/move/{days}").hasRole("ADMIN");
-                   authorize.requestMatchers(HttpMethod.POST,"/api/trainingPlans/exercises").hasRole("ADMIN");
-                   authorize.requestMatchers(HttpMethod.DELETE,"/api/trainingPlans/{id}").hasRole("ADMIN");
+       return http.authorizeHttpRequests(
+               authorize -> {
+                   authorize.requestMatchers("/css/**", "/webjars/** ", "/js/**", "/images/**").permitAll();
+                   authorize.requestMatchers("/login", "/error/**", "/logout").permitAll();
+                   authorize.requestMatchers("/admin/**").hasRole("ADMIN");
+                   authorize.requestMatchers(HttpMethod.GET, "/api/trainingPlans").hasRole("ADMIN");
+                   authorize.requestMatchers("/user/**").hasRole("USER");
                    authorize.anyRequest().authenticated();
-               }).httpBasic(Customizer.withDefaults());
-       return http.build();
+               }
+       ).formLogin(formLogin -> formLogin
+               .loginPage("/login")
+                       .loginProcessingUrl("/authenticate")
+               .defaultSuccessUrl("/swagger-ui/index.html#/training-plan-controller/getTrainingPlan", true)
+               .permitAll())
+               .logout(logout -> logout.logoutUrl("/logout")
+                       .logoutSuccessUrl("/login?logout")
+                       .permitAll()
+               )
+               .csrf(AbstractHttpConfigurer::disable)
+               .build();
     }
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService(){
-        var user1 = User.builder()
-                .username("test1")
-                .password(passwordEncoder().encode("test"))
-                .roles("USER")
-                .build();
-        var user2 = User.builder()
-                .username("test2")
-                .password(passwordEncoder().encode("test"))
-                .roles("USER")
-                .build();
-        var user3 = User.builder()
-                .username("test3")
-                .password(passwordEncoder().encode("test"))
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user1, user2, user3);
 
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return trainingPlanUserService;
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(trainingPlanUserService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        return daoAuthenticationProvider;
     }
 }

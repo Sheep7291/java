@@ -3,14 +3,16 @@ package learning.trainingPlan.controller;
 import learning.trainingPlan.CountryClient;
 import learning.trainingPlan.dto.ExerciseDTO;
 import learning.trainingPlan.dto.TrainingPlanDTO;
+import learning.trainingPlan.service.AddUserService;
 import learning.trainingPlan.service.ExerciseService;
 import learning.trainingPlan.service.TrainingPlanService;
+import learning.trainingPlan.service.TrainingPlanUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -20,8 +22,10 @@ public class TrainingPlanController {
     private final TrainingPlanService trainingPlanService;
     private final ExerciseService exerciseService;
     private final CountryClient countryClient;
+    private final AddUserService addUserService;
 
     @GetMapping("")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<TrainingPlanDTO> getTrainingPlan(){
         return trainingPlanService.getTrainingPlans();
     }
@@ -31,7 +35,7 @@ public class TrainingPlanController {
         return countryClient.getAllCountries();
     }
 
-    @PostMapping("")
+    @PostMapping("/")
     public ResponseEntity<String> createTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO){
         trainingPlanService.createTrainingPlan( trainingPlanDTO);
         return ResponseEntity.ok("Training Plan Added successfully");
