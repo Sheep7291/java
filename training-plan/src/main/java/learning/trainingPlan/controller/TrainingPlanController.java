@@ -31,8 +31,9 @@ public class TrainingPlanController {
     }
 
     @GetMapping("countries")
-    public List<Object> getCountries(){
-        return countryClient.getAllCountries();
+    public List<Object> getCountries(@RequestParam String targetMuscle){
+        String language = "english";
+        return countryClient.getAllCountries(language, targetMuscle);
     }
 
     @PostMapping("/")
