@@ -9,8 +9,8 @@ import java.util.List;
 @FeignClient(name = "wger", url = "https://wger.de/api/v2")
 public interface CountryClient {
 
-    @GetMapping("/exercise/search/")
-    List<Object> getAllCountries(
+    @GetMapping("/exercise/search")
+    Object getAllCountries(
             @RequestParam("language") String language,
             @RequestParam("term") String term
     );

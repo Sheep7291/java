@@ -1,10 +1,12 @@
 <div class="container">
-  <form class="form" (ngSubmit)="signIn()">
+  <form class="form" #signInForm="ngForm" (ngSubmit)="signIn()">
     <div class="sign-in">Sign in</div>
-    <input name="username" [(ngModel)]="credentials.username" placeholder="Username" type="text"/>
-    <input name="password" [(ngModel)]="credentials.password" placeholder="Password" type="password"/>
+    <input name="username" required #username = "ngModel"[(ngModel)]="credentials.username" placeholder="Username" type="text"/>
+    <em class="error" *ngIf = "username.invalid && username.touched">Username is required</em>
+    <input name="password" required #password = "ngModel"[(ngModel)]="credentials.password" placeholder="Password" type="password"/>
+    <em class="error" *ngIf = "password.invalid && password.touched">Password is required</em>
     <div class ="buttons">
-      <button type="submit" class="button cta">
+      <button [disabled]="signInForm.form.invalid" type="submit" class="button cta">
         Sign in
       </button>
     </div>
