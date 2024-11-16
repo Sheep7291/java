@@ -18,16 +18,13 @@ export class UserService {
   }
 
 
-  signIn(credentials: IUserCredentials): Observable<IUser> {
-    const headers: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',});
-    return this.http
-      .post<IUser>('http://localhost:8080/authenticate', credentials, {
-        withCredentials: true,
-      })
-      .pipe(map((user: IUser) => {
-        this.user.next(user);
-        return user;
+  signIn(credentials: IUserCredentials): Observable<boolean> {
+    const headers: HttpHeaders = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Basic '+ btoa((credentials.username+':'+credentials.password)));
 
-      }));
-  }}
+    return this.http
+      .get<boolean>('http://localhost:8080/api/users/checkIfUserIsLogged', {headers})
+
+      };
+  }

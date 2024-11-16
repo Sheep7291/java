@@ -1,7 +1,9 @@
 package learning.trainingPlan.controller;
 
-import learning.trainingPlan.service.AddUserService;
+import learning.trainingPlan.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,16 +12,29 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class TrainingPlanUserController {
 
-    private final AddUserService addUserService;
+    private final UserService userService;
 
-    @PostMapping("/createSignelUser")
-    public void addUser(@RequestParam String username, @RequestParam String password, @RequestParam String roles){
-        addUserService.addUser(username, password, roles);
+    @PostMapping("/createSingleUser")
+    public ResponseEntity<String> addUser(@RequestParam String username, @RequestParam String password, @RequestParam String roles){
+        userService.addUser(username, password, roles);
+        return ResponseEntity.ok("User added");
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestParam String username, String password){
+        String roles = "USER";
+        userService.addUser(username, password, roles);
+        return ResponseEntity.ok("User added");
     }
 
     @GetMapping("/getSelfUsername")
     public String currentUserName(Authentication authentication){
         return authentication.getName();
+    }
+
+    @GetMapping("/checkIfUserIsLogged")
+    public boolean checkUser(Authentication authentication){
+        return  authentication.isAuthenticated();
     }
 
 }

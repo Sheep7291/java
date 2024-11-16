@@ -3,14 +3,11 @@ package learning.trainingPlan.controller;
 import learning.trainingPlan.CountryClient;
 import learning.trainingPlan.dto.ExerciseDTO;
 import learning.trainingPlan.dto.TrainingPlanDTO;
-import learning.trainingPlan.service.AddUserService;
 import learning.trainingPlan.service.ExerciseService;
 import learning.trainingPlan.service.TrainingPlanService;
-import learning.trainingPlan.service.TrainingPlanUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +19,6 @@ public class TrainingPlanController {
     private final TrainingPlanService trainingPlanService;
     private final ExerciseService exerciseService;
     private final CountryClient countryClient;
-    private final AddUserService addUserService;
 
     @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")

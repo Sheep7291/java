@@ -69,24 +69,26 @@ public class SecurityConfiguration  {
                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                .authorizeHttpRequests(
                authorize -> {
-                   authorize.requestMatchers("/authenticate", "/v3/api-docs/**", "/swagger-ui/**", "/login").permitAll();
+                   authorize.requestMatchers("/authenticate", "/v3/api-docs/**", "/swagger-ui/**").permitAll();
 //                   authorize.requestMatchers(HttpMethod.GET, "/api/trainingPlans").hasRole("ADMIN");
                    authorize.anyRequest().authenticated();
                }
-       )
-               .formLogin(form -> form
-                       .permitAll()
-                       .loginProcessingUrl("/authenticate")
-                       .successHandler((request, response, authentication) -> {
-                           response.setContentType("application/json");
-                           response.getWriter().write("{\"sessionId\": \"" + request.getRequestedSessionId() + "\"}");
-                       }))
+       ).formLogin(AbstractHttpConfigurer::disable)
+//               .formLogin(form -> form
+//
+//                       .loginProcessingUrl("/authenticate")
+//                       .permitAll()
+//                       .successHandler((request, response, authentication) -> {
+//                           response.setContentType("application/json");
+//                           response.getWriter().write("{\"sessionId\": \"" + request.getRequestedSessionId() + "\"}");
+//                       }).disable())
                .exceptionHandling(ex -> ex
                        .authenticationEntryPoint((request, response, authException) -> {
                            response.setContentType("application/json");
                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                           response.getWriter().write("{\"error\": \"Unathorize\"}");
+                           response.getWriter().write("{\"error\": \"Unathorized\"}");
                        }))
+               .httpBasic(Customizer.withDefaults())
                .csrf(AbstractHttpConfigurer::disable)
                .build();
     }
