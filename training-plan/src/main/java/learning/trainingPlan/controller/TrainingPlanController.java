@@ -8,6 +8,7 @@ import learning.trainingPlan.service.TrainingPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,10 +33,22 @@ public class TrainingPlanController {
         return countryClient.getAllCountries(language, targetMuscle);
     }
 
+    @GetMapping("/myToday")
+    public TrainingPlanDTO getMyTrainingPlansForToday(Authentication user){
+        String username = user.getName();
+        return trainingPlanService.getLoggedUserTrainingPlanForToday(username);
+    }
     @PostMapping("/")
-    public ResponseEntity<String> createTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO){
-        trainingPlanService.createTrainingPlan( trainingPlanDTO);
+    public ResponseEntity<String> createTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO, Authentication user){
+        String username = user.getName();
+        trainingPlanService.createTrainingPlan(trainingPlanDTO, username);
         return ResponseEntity.ok("Training Plan Added successfully");
+    }
+
+    @GetMapping("/byUser")
+    public List<TrainingPlanDTO> getTrainingPlansLoggedUser(Authentication user){
+        String username = user.getName();
+        return trainingPlanService.getLoggerUserUpcomingTrainingPlans(username);
     }
     @PostMapping("/exercises")
     public ResponseEntity<String> createExercises(@RequestBody ExerciseDTO exerciseDTO){

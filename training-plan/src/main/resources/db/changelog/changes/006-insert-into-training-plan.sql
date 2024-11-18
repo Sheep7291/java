@@ -1,1 +1,1 @@
-insert into trainingplan(id, trainingdate, statusoftraining) values(1, CURRENT_DATE, 'DONE')
+insert into trainingplan(id, trainingdate, statusoftraining, created_by) values(1, CURRENT_DATE, 'DONE', 'Sheep')

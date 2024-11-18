@@ -7,6 +7,7 @@ import learning.trainingPlan.mapper.TrainingPlanMapper;
 import learning.trainingPlan.repository.TrainingPlanRepository;
 import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,7 +25,8 @@ public class TrainingPlanService {
         return trainingPlanMapper.fromTrainingPLanEntityListToTrainingPlanDTOList(trainingPlanRepository.findFirst10ByOrderById());
     }
 
-    public void createTrainingPlan(TrainingPlanDTO trainingPlanDTO) {
+    public void createTrainingPlan(TrainingPlanDTO trainingPlanDTO, String username) {
+        trainingPlanDTO.setCreatedBy(username);
         trainingPlanRepository.save(trainingPlanMapper.trainingPlanDTOToTrainingPlanEntity(trainingPlanDTO));
     }
 
@@ -38,6 +40,12 @@ public class TrainingPlanService {
     public void deleteTrainingPLan(Long id) {
         trainingPlanRepository.findById(id).orElseThrow(() -> new TrainingPlanNotFoundException("Training plan not found with ID: " + id));
         trainingPlanRepository.deleteById(id);
+    }
+
+    public List<TrainingPlanDTO> getLoggerUserUpcomingTrainingPlans (String username){
+        var localDate = LocalDate.now();
+        var trainingPlanEntityList = trainingPlanRepository.findByCreatedByAndTrainingDateAfter(username, localDate);
+        return trainingPlanMapper.fromTrainingPLanEntityListToTrainingPlanDTOList(trainingPlanEntityList);
     }
 
     public void moveTrainingPlansByDays(int days) {
@@ -54,5 +62,11 @@ public class TrainingPlanService {
                 })
                 .collect(Collectors.toList());
         trainingPlanRepository.saveAll(trainingPlanEntityList);
+    }
+
+    public TrainingPlanDTO getLoggedUserTrainingPlanForToday(String user) {
+        var today = LocalDate.now();
+        var trainingPlan = trainingPlanRepository.findByCreatedByAndTrainingDate(user, today);
+        return trainingPlanMapper.trainingPlanEntityToTrainingPlanDTO(trainingPlan);
     }
 }

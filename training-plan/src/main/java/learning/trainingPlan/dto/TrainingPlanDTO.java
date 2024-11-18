@@ -1,6 +1,7 @@
 package learning.trainingPlan.dto;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -13,4 +14,6 @@ public class TrainingPlanDTO {
     private LocalDate trainingDate;
     private List<ExerciseDTO> exerciseDTO;
     private StatusOfTraining statusOfTraining;
+    @Schema(description = "createdBy", hidden = true)
+    private String createdBy;
 }

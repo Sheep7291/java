@@ -21,4 +21,6 @@ public class Exercise {
     private String breakBetweenSets;
     @Column(name = "url_to_exercise")
     private String urlToExercise;
+    @Column(name ="added_by")
+    private String addedBy;
 }

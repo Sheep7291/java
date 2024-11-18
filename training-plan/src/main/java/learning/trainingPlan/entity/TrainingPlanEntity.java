@@ -22,5 +22,7 @@ public class TrainingPlanEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "statusoftraining")
     private StatusOfTraining statusOfTraining;
+    @Column(name = "created_by")
+    private String createdBy;
 //  private String CreateBy;
 }

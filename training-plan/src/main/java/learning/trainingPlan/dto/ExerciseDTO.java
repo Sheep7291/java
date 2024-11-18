@@ -1,5 +1,6 @@
 package learning.trainingPlan.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
@@ -11,4 +12,6 @@ public class ExerciseDTO {
     private int sets;
     private String breakBetweenSets;
     private String urlToExercise;
+    @Schema(description = "addedBy", hidden = true)
+    private String addedBy;
 }
