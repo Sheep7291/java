@@ -70,18 +70,10 @@ public class SecurityConfiguration  {
                .authorizeHttpRequests(
                authorize -> {
                    authorize.requestMatchers("/authenticate", "/v3/api-docs/**", "/swagger-ui/**").permitAll();
-//                   authorize.requestMatchers(HttpMethod.GET, "/api/trainingPlans").hasRole("ADMIN");
+                   authorize.requestMatchers(HttpMethod.POST, "api/users/register").permitAll();
                    authorize.anyRequest().authenticated();
                }
        ).formLogin(AbstractHttpConfigurer::disable)
-//               .formLogin(form -> form
-//
-//                       .loginProcessingUrl("/authenticate")
-//                       .permitAll()
-//                       .successHandler((request, response, authentication) -> {
-//                           response.setContentType("application/json");
-//                           response.getWriter().write("{\"sessionId\": \"" + request.getRequestedSessionId() + "\"}");
-//                       }).disable())
                .exceptionHandling(ex -> ex
                        .authenticationEntryPoint((request, response, authException) -> {
                            response.setContentType("application/json");

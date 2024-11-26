@@ -4,6 +4,7 @@ import learning.trainingPlan.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class TrainingPlanUserController {
     private final UserService userService;
 
     @PostMapping("/createSingleUser")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> addUser(@RequestParam String username, @RequestParam String password, @RequestParam String roles){
         userService.addUser(username, password, roles);
         return ResponseEntity.ok("User added");
@@ -25,6 +27,13 @@ public class TrainingPlanUserController {
         String roles = "USER";
         userService.addUser(username, password, roles);
         return ResponseEntity.ok("User added");
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("addRole")
+    public ResponseEntity<String> addRoleToUser(@RequestParam String username, String roles){
+        userService.addRolesToUser(username, roles.toUpperCase());
+        return ResponseEntity.ok("Roles to user added successful");
     }
 
     @GetMapping("/getSelfUsername")

@@ -37,4 +37,15 @@ public class UserService {
             throw new UserAlreadyExistException("User already exist");
         }
     }
+
+    public void addRolesToUser(String username, String roles) {
+       Optional <TrainingPlanUser> user = trainingPlanUserRepository.findByUsername(username);
+       if(user.isPresent()){
+           String userStartRoles = user.get().getRoles();
+           String finalRoles = roles + "," + userStartRoles;
+           user.get().setRoles(finalRoles);
+           trainingPlanUserRepository.save(user.get());
+        }
+                
+    }
 }
