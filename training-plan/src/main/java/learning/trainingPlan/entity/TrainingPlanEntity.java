@@ -24,5 +24,4 @@ public class TrainingPlanEntity {
     private StatusOfTraining statusOfTraining;
     @Column(name = "created_by")
     private String createdBy;
-//  private String CreateBy;
 }

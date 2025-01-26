@@ -11,4 +11,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleNotFoundPlanException(TrainingPlanNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
+
+    @ExceptionHandler({TrainingPlanAlreadyExist.class})
+    public ResponseEntity<Object> handleAlreadyExistPlanException(TrainingPlanAlreadyExist exception) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+    }
+
+    @ExceptionHandler({GenderNotFoundException.class})
+    public ResponseEntity<Object> handleBadGenderException(GenderNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
 }

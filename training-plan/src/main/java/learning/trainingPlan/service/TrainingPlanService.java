@@ -1,15 +1,15 @@
 package learning.trainingPlan.service;
 
+import learning.trainingPlan.dto.ExerciseDTO;
 import learning.trainingPlan.dto.TrainingPlanDTO;
 import learning.trainingPlan.entity.TrainingPlanEntity;
+import learning.trainingPlan.exception.TrainingPlanAlreadyExist;
 import learning.trainingPlan.exception.TrainingPlanNotFoundException;
 import learning.trainingPlan.mapper.TrainingPlanMapper;
 import learning.trainingPlan.repository.TrainingPlanRepository;
 import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +27,18 @@ public class TrainingPlanService {
 
     public void createTrainingPlan(TrainingPlanDTO trainingPlanDTO, String username) {
         trainingPlanDTO.setCreatedBy(username);
-        trainingPlanRepository.save(trainingPlanMapper.trainingPlanDTOToTrainingPlanEntity(trainingPlanDTO));
+        List<ExerciseDTO> exerciseDTOS = trainingPlanDTO.getExerciseDTO();
+        exerciseDTOS = exerciseDTOS.
+                stream()
+                .map(exerciseDTO -> {
+                    exerciseDTO.setAddedBy(username);
+                return exerciseDTO; })
+                .collect(Collectors.toList());
+        trainingPlanDTO.setExerciseDTO(exerciseDTOS);
+        if(trainingPlanRepository.findByCreatedByAndTrainingDate(username, trainingPlanDTO.getTrainingDate()) == null) {
+            trainingPlanRepository.save(trainingPlanMapper.trainingPlanDTOToTrainingPlanEntity(trainingPlanDTO));
+        }
+        else throw new TrainingPlanAlreadyExist("Training plan on this day already exist, please edit or add plan on other day");
     }
 
     public void updateTrainingPlan(TrainingPlanDTO trainingPlanDTO) {
@@ -42,8 +53,8 @@ public class TrainingPlanService {
         trainingPlanRepository.deleteById(id);
     }
 
-    public List<TrainingPlanDTO> getLoggerUserUpcomingTrainingPlans (String username){
-        var localDate = LocalDate.now();
+    public List<TrainingPlanDTO> getLoggedUserUpcomingTrainingPlans(String username){
+        var localDate = LocalDate.now().minusDays(1);
         var trainingPlanEntityList = trainingPlanRepository.findByCreatedByAndTrainingDateAfter(username, localDate);
         return trainingPlanMapper.fromTrainingPLanEntityListToTrainingPlanDTOList(trainingPlanEntityList);
     }

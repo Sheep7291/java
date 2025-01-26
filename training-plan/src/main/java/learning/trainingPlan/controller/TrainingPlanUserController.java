@@ -2,7 +2,6 @@ package learning.trainingPlan.controller;
 
 import learning.trainingPlan.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -29,8 +28,9 @@ public class TrainingPlanUserController {
         return ResponseEntity.ok("User added");
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PutMapping("addRole")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> addRoleToUser(@RequestParam String username, String roles){
         userService.addRolesToUser(username, roles.toUpperCase());
         return ResponseEntity.ok("Roles to user added successful");

@@ -48,7 +48,7 @@ public class TrainingPlanController {
     @GetMapping("/byUser")
     public List<TrainingPlanDTO> getTrainingPlansLoggedUser(Authentication user){
         String username = user.getName();
-        return trainingPlanService.getLoggerUserUpcomingTrainingPlans(username);
+        return trainingPlanService.getLoggedUserUpcomingTrainingPlans(username);
     }
     @PostMapping("/exercises")
     public ResponseEntity<String> createExercises(@RequestBody ExerciseDTO exerciseDTO){
