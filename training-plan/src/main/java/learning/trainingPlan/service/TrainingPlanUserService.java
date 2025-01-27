@@ -27,7 +27,7 @@ public class TrainingPlanUserService implements UserDetailsService {
             return User.builder()
                     .username(trainingPlanUser.getUsername())
                     .password(trainingPlanUser.getPassword())
-                    .roles(trainingPlanUser.getRoles().split(","))
+                    .roles(String.valueOf(trainingPlanUser.getUserPossibleRoles()).split(","))
                     .build();
         }else{
             throw new UsernameNotFoundException(username);

@@ -5,6 +5,7 @@ import learning.trainingPlan.dto.TrainingPlanDTO;
 import learning.trainingPlan.entity.Exercise;
 import learning.trainingPlan.entity.TrainingPlanEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -15,6 +16,6 @@ public interface ExerciseMapper {
     ExerciseDTO exerciseToExerciseDTO(Exercise exercise);
 
     List<Exercise> fromExerciseDTOListToExercise(List<ExerciseDTO> trainingPlanDTOList);
-
+    @Mapping(target = "trainingPlanEntity", ignore = true)
     Exercise exerciseDTOToExercise(ExerciseDTO exerciseDTO);
 }

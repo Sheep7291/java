@@ -8,9 +8,11 @@ import lombok.Data;
 public class Exercise {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "training_plan_entity_id")
-    private Long trainingPlanEntityId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "training_plan_entity_id", updatable = false)
+    private TrainingPlanEntity trainingPlanEntity;
     @Column(name = "name_of_exercise")
     private String nameOfExcercise;
     @Column(name = "range_of_reps")

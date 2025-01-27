@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 
 public class TrainingPlanDTO {
+    @Schema(description = "id", hidden = true)
     private Long id;
     private LocalDate trainingDate;
     private List<ExerciseDTO> exerciseDTO;

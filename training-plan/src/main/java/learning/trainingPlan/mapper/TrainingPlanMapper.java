@@ -1,6 +1,8 @@
 package learning.trainingPlan.mapper;
 
+import learning.trainingPlan.dto.ExerciseDTO;
 import learning.trainingPlan.dto.TrainingPlanDTO;
+import learning.trainingPlan.entity.Exercise;
 import learning.trainingPlan.entity.TrainingPlanEntity;
 import org.mapstruct.*;
 
@@ -17,4 +19,7 @@ public interface TrainingPlanMapper {
     TrainingPlanEntity trainingPlanDTOToTrainingPlanEntity(TrainingPlanDTO trainingPlanDTO);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateTrainingPlanFromDTO(TrainingPlanDTO trainingPlanDTO, @MappingTarget TrainingPlanEntity trainingPlanEntity);
+
+    //@Mapping(source = "", target = "")
+    //Exercise exerciseDTOToExercise(ExerciseDTO exerciseDTO);
 }

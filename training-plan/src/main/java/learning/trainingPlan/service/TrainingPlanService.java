@@ -30,11 +30,11 @@ public class TrainingPlanService {
         List<ExerciseDTO> exerciseDTOS = trainingPlanDTO.getExerciseDTO();
         exerciseDTOS = exerciseDTOS.
                 stream()
-                .map(exerciseDTO -> {
-                    exerciseDTO.setAddedBy(username);
-                return exerciseDTO; })
+                .peek(exerciseDTO -> exerciseDTO.setAddedBy(username))
                 .collect(Collectors.toList());
         trainingPlanDTO.setExerciseDTO(exerciseDTOS);
+        //TODO:
+        // trzeba rozwiązać sposób mapowania listy encji exercise w encji trainingPlanEntity
         if(trainingPlanRepository.findByCreatedByAndTrainingDate(username, trainingPlanDTO.getTrainingDate()) == null) {
             trainingPlanRepository.save(trainingPlanMapper.trainingPlanDTOToTrainingPlanEntity(trainingPlanDTO));
         }

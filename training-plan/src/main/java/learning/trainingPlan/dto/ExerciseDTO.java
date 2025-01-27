@@ -5,7 +5,9 @@ import lombok.Data;
 
 @Data
 public class ExerciseDTO {
+    @Schema(description = "id", hidden = true)
     private Long id;
+    @Schema(description = "trainingPlanEntityId", hidden = true)
     private Long trainingPlanEntityId;
     private String nameOfExcercise;
     private String rangeOfReps;

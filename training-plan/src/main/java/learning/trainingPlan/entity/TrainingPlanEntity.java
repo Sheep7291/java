@@ -13,11 +13,11 @@ import java.util.List;
 public class TrainingPlanEntity {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "trainingdate")
     private LocalDate trainingDate;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "training_plan_entity_id", updatable = false)
+    @OneToMany(mappedBy = "trainingPlanEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Exercise> exercise;
     @Enumerated(EnumType.STRING)
     @Column(name = "statusoftraining")

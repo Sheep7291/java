@@ -1,6 +1,7 @@
 package learning.trainingPlan.service;
 
 import learning.trainingPlan.entity.TrainingPlanUser;
+import learning.trainingPlan.entity.UserPossibleRoles;
 import learning.trainingPlan.exception.UserAlreadyExistException;
 import learning.trainingPlan.repository.TrainingPlanUserRepository;
 import lombok.AllArgsConstructor;
@@ -23,7 +24,7 @@ public class UserService {
             TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
             trainingPlanUser.setUsername(username);
             trainingPlanUser.setPassword(bCryptPasswordEncoder.encode(password));
-            trainingPlanUser.setRoles(roles.toUpperCase());
+            trainingPlanUser.setUserPossibleRoles(UserPossibleRoles.valueOf(roles.toUpperCase()));
             trainingPlanUserRepository.save(trainingPlanUser);;
         }catch (UserAlreadyExistException ex){
             throw new ResponseStatusException(HttpStatus.CONFLICT, ex.getMessage(), ex);
@@ -41,9 +42,9 @@ public class UserService {
     public void addRolesToUser(String username, String roles) {
        Optional <TrainingPlanUser> user = trainingPlanUserRepository.findByUsername(username);
        if(user.isPresent()){
-           String userStartRoles = user.get().getRoles();
+           String userStartRoles = String.valueOf(user.get().getUserPossibleRoles());
            String finalRoles = roles + "," + userStartRoles;
-           user.get().setRoles(finalRoles);
+           user.get().setUserPossibleRoles(UserPossibleRoles.valueOf(finalRoles));
            trainingPlanUserRepository.save(user.get());
         }
                 
