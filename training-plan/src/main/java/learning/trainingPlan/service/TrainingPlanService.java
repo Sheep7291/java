@@ -5,11 +5,13 @@ import learning.trainingPlan.dto.TrainingPlanDTO;
 import learning.trainingPlan.entity.TrainingPlanEntity;
 import learning.trainingPlan.exception.TrainingPlanAlreadyExist;
 import learning.trainingPlan.exception.TrainingPlanNotFoundException;
+import learning.trainingPlan.mapper.ExerciseMapper;
 import learning.trainingPlan.mapper.TrainingPlanMapper;
 import learning.trainingPlan.repository.TrainingPlanRepository;
 import lombok.AllArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,8 +20,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TrainingPlanService {
     final private TrainingPlanRepository trainingPlanRepository;
-    private final TrainingPlanMapper trainingPlanMapper = Mappers.getMapper(TrainingPlanMapper.class);
-
+    private final ExerciseMapper exerciseMapper;
+    private final TrainingPlanMapper trainingPlanMapper;
 
     public List<TrainingPlanDTO> getTrainingPlans() {
         return trainingPlanMapper.fromTrainingPLanEntityListToTrainingPlanDTOList(trainingPlanRepository.findFirst10ByOrderById());
@@ -35,10 +37,10 @@ public class TrainingPlanService {
         trainingPlanDTO.setExerciseDTO(exerciseDTOS);
         //TODO:
         // trzeba rozwiązać sposób mapowania listy encji exercise w encji trainingPlanEntity
-        if(trainingPlanRepository.findByCreatedByAndTrainingDate(username, trainingPlanDTO.getTrainingDate()) == null) {
+        if (trainingPlanRepository.findByCreatedByAndTrainingDate(username, trainingPlanDTO.getTrainingDate()) == null) {
             trainingPlanRepository.save(trainingPlanMapper.trainingPlanDTOToTrainingPlanEntity(trainingPlanDTO));
-        }
-        else throw new TrainingPlanAlreadyExist("Training plan on this day already exist, please edit or add plan on other day");
+        } else
+            throw new TrainingPlanAlreadyExist("Training plan on this day already exist, please edit or add plan on other day");
     }
 
     public void updateTrainingPlan(TrainingPlanDTO trainingPlanDTO) {
@@ -53,7 +55,7 @@ public class TrainingPlanService {
         trainingPlanRepository.deleteById(id);
     }
 
-    public List<TrainingPlanDTO> getLoggedUserUpcomingTrainingPlans(String username){
+    public List<TrainingPlanDTO> getLoggedUserUpcomingTrainingPlans(String username) {
         var localDate = LocalDate.now().minusDays(1);
         var trainingPlanEntityList = trainingPlanRepository.findByCreatedByAndTrainingDateAfter(username, localDate);
         return trainingPlanMapper.fromTrainingPLanEntityListToTrainingPlanDTOList(trainingPlanEntityList);

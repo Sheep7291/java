@@ -8,18 +8,24 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring", uses = {ExerciseMapper.class})
 public interface TrainingPlanMapper {
     List<TrainingPlanDTO> fromTrainingPLanEntityListToTrainingPlanDTOList(List<TrainingPlanEntity> trainingPlanEntityList);
     @Mapping(target = "exerciseDTO" , source = "exercise" )
     TrainingPlanDTO trainingPlanEntityToTrainingPlanDTO(TrainingPlanEntity trainingPlanEntity);
 
-    List<TrainingPlanEntity> fromTrainingPlanDTOListTOtrainingPLanEntity(List<TrainingPlanDTO> trainingPlanDTOList);
+    List<TrainingPlanEntity> fromTrainingPlanDTOListTotrainingPLanEntity(List<TrainingPlanDTO> trainingPlanDTOList);
     @Mapping(target = "exercise", source = "exerciseDTO")
     TrainingPlanEntity trainingPlanDTOToTrainingPlanEntity(TrainingPlanDTO trainingPlanDTO);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateTrainingPlanFromDTO(TrainingPlanDTO trainingPlanDTO, @MappingTarget TrainingPlanEntity trainingPlanEntity);
 
-    //@Mapping(source = "", target = "")
-    //Exercise exerciseDTOToExercise(ExerciseDTO exerciseDTO);
+    @AfterMapping
+    default void linkExercises(@MappingTarget TrainingPlanEntity entity){
+        if (entity.getExercise()!= null){
+            for(Exercise exercise : entity.getExercise()){
+                exercise.setTrainingPlanEntity(entity);
+            }
+        }
+    }
 }

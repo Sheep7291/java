@@ -9,13 +9,18 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ExerciseMapper {
-    List<ExerciseDTO> fromExerciseListToExerciseDTOList(List<Exercise> exerciseList);
 
+
+    @Mapping(target = "trainingPlanEntityId", source = "trainingPlanEntity.id")
     ExerciseDTO exerciseToExerciseDTO(Exercise exercise);
 
-    List<Exercise> fromExerciseDTOListToExercise(List<ExerciseDTO> trainingPlanDTOList);
     @Mapping(target = "trainingPlanEntity", ignore = true)
     Exercise exerciseDTOToExercise(ExerciseDTO exerciseDTO);
+
+    List<ExerciseDTO> fromExerciseListToExerciseDTOList(List<Exercise> exerciseList);
+
+    List<Exercise> fromExerciseDTOListToExercise(List<ExerciseDTO> trainingPlanDTOList);
+
 }

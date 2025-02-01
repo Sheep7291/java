@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ExerciseService {
     final private ExerciseRepository exerciseRepository;
-    private final ExerciseMapper exerciseMapper = Mappers.getMapper(ExerciseMapper.class);
+    private final ExerciseMapper exerciseMapper;
 
     public void createExercise(ExerciseDTO exerciseDTO) {
         exerciseRepository.save(exerciseMapper.exerciseDTOToExercise(exerciseDTO));
