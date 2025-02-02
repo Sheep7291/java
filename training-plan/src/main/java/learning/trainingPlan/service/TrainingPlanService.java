@@ -35,8 +35,6 @@ public class TrainingPlanService {
                 .peek(exerciseDTO -> exerciseDTO.setAddedBy(username))
                 .collect(Collectors.toList());
         trainingPlanDTO.setExerciseDTO(exerciseDTOS);
-        //TODO:
-        // trzeba rozwiązać sposób mapowania listy encji exercise w encji trainingPlanEntity
         if (trainingPlanRepository.findByCreatedByAndTrainingDate(username, trainingPlanDTO.getTrainingDate()) == null) {
             trainingPlanRepository.save(trainingPlanMapper.trainingPlanDTOToTrainingPlanEntity(trainingPlanDTO));
         } else

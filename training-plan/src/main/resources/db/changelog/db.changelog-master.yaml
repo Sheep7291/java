@@ -17,3 +17,7 @@ databaseChangeLog:
       file: classpath:/db/changelog/changes/008-create-user-table.sql
   - include:
       file: classpath:/db/changelog/changes/009-insert-user.sql
+  - include:
+      file: classpath:/db/changelog/changes/010-create-trainers-table.sql
+  - include:
+      file: classpath:/db/changelog/changes/011-create-client-table.sql
