@@ -5,4 +5,3 @@ public class TrainingPlanAlreadyExist extends RuntimeException {
         super(message);
     }
 }
-

@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -54,6 +55,18 @@ public class TrainingPlanController {
     public ResponseEntity<String> createExercises(@RequestBody ExerciseDTO exerciseDTO){
         exerciseService.createExercise( exerciseDTO);
         return ResponseEntity.ok("Exercises Added");
+    }
+
+    @DeleteMapping("exercises/{id}")
+    public ResponseEntity<String> deleteExercise(@PathVariable Long id){
+        exerciseService.deleteExercise(id);
+        return ResponseEntity.ok("Exercise deleted successfully");
+    }
+
+    @PostMapping("exercise/add")
+    public ResponseEntity<String> addToTrainingPlan(Authentication user, @RequestParam LocalDate localDate, @RequestBody ExerciseDTO exerciseDTO){
+        exerciseService.addExerciseToTrainingPlan(exerciseDTO, user.getName(), localDate);
+        return ResponseEntity.ok("Exercises added");
     }
 
     @PutMapping("")

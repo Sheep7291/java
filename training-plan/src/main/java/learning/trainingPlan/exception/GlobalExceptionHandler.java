@@ -21,4 +21,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleBadGenderException(GenderNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
+
+    @ExceptionHandler({ExerciseNotFoundException.class})
+    public ResponseEntity<Object> handleNotFoundExerciseException(ExerciseNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
 }

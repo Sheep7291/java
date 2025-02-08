@@ -16,11 +16,10 @@ public interface ExerciseMapper {
     @Mapping(target = "trainingPlanEntityId", source = "trainingPlanEntity.id")
     ExerciseDTO exerciseToExerciseDTO(Exercise exercise);
 
-    @Mapping(target = "trainingPlanEntity", ignore = true)
+    @Mapping(target = "trainingPlanEntity.id" , source = "trainingPlanEntityId", ignore = true)
     Exercise exerciseDTOToExercise(ExerciseDTO exerciseDTO);
 
     List<ExerciseDTO> fromExerciseListToExerciseDTOList(List<Exercise> exerciseList);
 
     List<Exercise> fromExerciseDTOListToExercise(List<ExerciseDTO> trainingPlanDTOList);
-
 }
