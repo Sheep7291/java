@@ -3,8 +3,8 @@ package learning.trainingPlan.dto;
 import lombok.Data;
 
 @Data
-public class ClientDTO {
+public class ClientDto {
     private Long id;
     private String username;
-    private TrainerDTO trainerDTO;
+    private TrainerDto trainerDTO;
 }

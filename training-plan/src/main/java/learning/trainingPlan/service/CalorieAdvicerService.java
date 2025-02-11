@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class CalorieAdvicerService {
 
-    public Integer CalculateIntakeCalories(CalorieIntakeAdvicer calorieIntakeAdvicer){
+    public Integer calculateIntakeCalories(CalorieIntakeAdvicer calorieIntakeAdvicer){
         calorieIntakeAdvicer.calculatecalories();
         Sedentary sedentary = new Sedentary();
         Lightly lightly = new Lightly();

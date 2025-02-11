@@ -13,6 +13,6 @@ public class CalorieAdvicerController {
 
     @GetMapping("/calculateCaloriesIntake")
     public Integer calculateCaloriesIntake(CalorieIntakeAdvicer calorieIntakeAdvicer) {
-        return calorieAdvicerService.CalculateIntakeCalories(calorieIntakeAdvicer);
+        return calorieAdvicerService.calculateIntakeCalories(calorieIntakeAdvicer);
     }
 }

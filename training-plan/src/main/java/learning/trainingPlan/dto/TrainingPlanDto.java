@@ -9,11 +9,11 @@ import java.util.List;
 
 @Data
 
-public class TrainingPlanDTO {
+public class TrainingPlanDto {
     @Schema(description = "id", hidden = true)
     private Long id;
     private LocalDate trainingDate;
-    private List<ExerciseDTO> exerciseDTO;
+    private List<ExerciseDto> exerciseDTO;
     private StatusOfTraining statusOfTraining;
     @Schema(description = "createdBy", hidden = true)
     private String createdBy;

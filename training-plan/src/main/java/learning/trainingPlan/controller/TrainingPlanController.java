@@ -1,8 +1,8 @@
 package learning.trainingPlan.controller;
 
 import learning.trainingPlan.CountryClient;
-import learning.trainingPlan.dto.ExerciseDTO;
-import learning.trainingPlan.dto.TrainingPlanDTO;
+import learning.trainingPlan.dto.ExerciseDto;
+import learning.trainingPlan.dto.TrainingPlanDto;
 import learning.trainingPlan.service.ExerciseService;
 import learning.trainingPlan.service.TrainingPlanService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class TrainingPlanController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<TrainingPlanDTO> getTrainingPlan(){
+    public List<TrainingPlanDto> getTrainingPlan(){
         return trainingPlanService.getTrainingPlans();
     }
 
@@ -35,24 +35,24 @@ public class TrainingPlanController {
     }
 
     @GetMapping("/myToday")
-    public TrainingPlanDTO getMyTrainingPlansForToday(Authentication user){
+    public TrainingPlanDto getMyTrainingPlansForToday(Authentication user){
         String username = user.getName();
         return trainingPlanService.getLoggedUserTrainingPlanForToday(username);
     }
     @PostMapping("/")
-    public ResponseEntity<String> createTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO, Authentication user){
+    public ResponseEntity<String> createTrainingPlan(@RequestBody TrainingPlanDto trainingPlanDTO, Authentication user){
         String username = user.getName();
         trainingPlanService.createTrainingPlan(trainingPlanDTO, username);
         return ResponseEntity.ok("Training Plan Added successfully");
     }
 
     @GetMapping("/byUser")
-    public List<TrainingPlanDTO> getTrainingPlansLoggedUser(Authentication user){
+    public List<TrainingPlanDto> getTrainingPlansLoggedUser(Authentication user){
         String username = user.getName();
         return trainingPlanService.getLoggedUserUpcomingTrainingPlans(username);
     }
     @PostMapping("/exercises")
-    public ResponseEntity<String> createExercises(@RequestBody ExerciseDTO exerciseDTO){
+    public ResponseEntity<String> createExercises(@RequestBody ExerciseDto exerciseDTO){
         exerciseService.createExercise( exerciseDTO);
         return ResponseEntity.ok("Exercises Added");
     }
@@ -64,13 +64,13 @@ public class TrainingPlanController {
     }
 
     @PostMapping("exercise/add")
-    public ResponseEntity<String> addToTrainingPlan(Authentication user, @RequestParam LocalDate localDate, @RequestBody ExerciseDTO exerciseDTO){
+    public ResponseEntity<String> addToTrainingPlan(Authentication user, @RequestParam LocalDate localDate, @RequestBody ExerciseDto exerciseDTO){
         exerciseService.addExerciseToTrainingPlan(exerciseDTO, user.getName(), localDate);
         return ResponseEntity.ok("Exercises added");
     }
 
     @PutMapping("")
-    public ResponseEntity<String> updateTrainingPlan(@RequestBody TrainingPlanDTO trainingPlanDTO){
+    public ResponseEntity<String> updateTrainingPlan(@RequestBody TrainingPlanDto trainingPlanDTO){
         trainingPlanService.updateTrainingPlan(trainingPlanDTO);
         return ResponseEntity.ok("Training Plan modified successfully");
     }

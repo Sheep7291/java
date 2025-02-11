@@ -1,7 +1,7 @@
 package learning.trainingPlan.service;
 
-import learning.trainingPlan.dto.ExerciseDTO;
-import learning.trainingPlan.dto.TrainingPlanDTO;
+import learning.trainingPlan.dto.ExerciseDto;
+import learning.trainingPlan.dto.TrainingPlanDto;
 import learning.trainingPlan.entity.TrainingPlanEntity;
 import learning.trainingPlan.exception.TrainingPlanAlreadyExist;
 import learning.trainingPlan.exception.TrainingPlanNotFoundException;
@@ -9,7 +9,6 @@ import learning.trainingPlan.mapper.ExerciseMapper;
 import learning.trainingPlan.mapper.TrainingPlanMapper;
 import learning.trainingPlan.repository.TrainingPlanRepository;
 import lombok.AllArgsConstructor;
-import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,25 +22,25 @@ public class TrainingPlanService {
     private final ExerciseMapper exerciseMapper;
     private final TrainingPlanMapper trainingPlanMapper;
 
-    public List<TrainingPlanDTO> getTrainingPlans() {
+    public List<TrainingPlanDto> getTrainingPlans() {
         return trainingPlanMapper.fromTrainingPLanEntityListToTrainingPlanDTOList(trainingPlanRepository.findFirst10ByOrderById());
     }
 
-    public void createTrainingPlan(TrainingPlanDTO trainingPlanDTO, String username) {
+    public void createTrainingPlan(TrainingPlanDto trainingPlanDTO, String username) {
         trainingPlanDTO.setCreatedBy(username);
-        List<ExerciseDTO> exerciseDTOS = trainingPlanDTO.getExerciseDTO();
-        exerciseDTOS = exerciseDTOS.
+        List<ExerciseDto> exerciseDtos = trainingPlanDTO.getExerciseDTO();
+        exerciseDtos = exerciseDtos.
                 stream()
                 .peek(exerciseDTO -> exerciseDTO.setAddedBy(username))
                 .collect(Collectors.toList());
-        trainingPlanDTO.setExerciseDTO(exerciseDTOS);
+        trainingPlanDTO.setExerciseDTO(exerciseDtos);
         if (trainingPlanRepository.findByCreatedByAndTrainingDate(username, trainingPlanDTO.getTrainingDate()) == null) {
             trainingPlanRepository.save(trainingPlanMapper.trainingPlanDTOToTrainingPlanEntity(trainingPlanDTO));
         } else
             throw new TrainingPlanAlreadyExist("Training plan on this day already exist, please edit or add plan on other day");
     }
 
-    public void updateTrainingPlan(TrainingPlanDTO trainingPlanDTO) {
+    public void updateTrainingPlan(TrainingPlanDto trainingPlanDTO) {
         TrainingPlanEntity trainingPlanEntity = trainingPlanRepository.findById(trainingPlanDTO.getId())
                 .orElseThrow(() -> new TrainingPlanNotFoundException("Training plan not found with ID: " + trainingPlanDTO.getId()));
         trainingPlanMapper.updateTrainingPlanFromDTO(trainingPlanDTO, trainingPlanEntity);
@@ -53,7 +52,7 @@ public class TrainingPlanService {
         trainingPlanRepository.deleteById(id);
     }
 
-    public List<TrainingPlanDTO> getLoggedUserUpcomingTrainingPlans(String username) {
+    public List<TrainingPlanDto> getLoggedUserUpcomingTrainingPlans(String username) {
         var localDate = LocalDate.now().minusDays(1);
         var trainingPlanEntityList = trainingPlanRepository.findByCreatedByAndTrainingDateAfter(username, localDate);
         return trainingPlanMapper.fromTrainingPLanEntityListToTrainingPlanDTOList(trainingPlanEntityList);
@@ -75,7 +74,7 @@ public class TrainingPlanService {
         trainingPlanRepository.saveAll(trainingPlanEntityList);
     }
 
-    public TrainingPlanDTO getLoggedUserTrainingPlanForToday(String user) {
+    public TrainingPlanDto getLoggedUserTrainingPlanForToday(String user) {
         var today = LocalDate.now();
         var trainingPlan = trainingPlanRepository.findByCreatedByAndTrainingDate(user, today);
         return trainingPlanMapper.trainingPlanEntityToTrainingPlanDTO(trainingPlan);

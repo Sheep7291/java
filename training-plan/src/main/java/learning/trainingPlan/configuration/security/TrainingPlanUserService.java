@@ -1,4 +1,4 @@
-package learning.trainingPlan.service;
+package learning.trainingPlan.configuration.security;
 
 import learning.trainingPlan.entity.TrainingPlanUser;
 import learning.trainingPlan.repository.TrainingPlanUserRepository;

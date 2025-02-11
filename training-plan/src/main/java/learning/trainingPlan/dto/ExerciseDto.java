@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-public class ExerciseDTO {
+public class ExerciseDto {
     @Schema(description = "id", hidden = true)
     private Long id;
     @Schema(description = "trainingPlanEntityId", hidden = true)

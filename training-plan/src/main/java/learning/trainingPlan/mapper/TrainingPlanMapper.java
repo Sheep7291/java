@@ -1,7 +1,6 @@
 package learning.trainingPlan.mapper;
 
-import learning.trainingPlan.dto.ExerciseDTO;
-import learning.trainingPlan.dto.TrainingPlanDTO;
+import learning.trainingPlan.dto.TrainingPlanDto;
 import learning.trainingPlan.entity.Exercise;
 import learning.trainingPlan.entity.TrainingPlanEntity;
 import org.mapstruct.*;
@@ -10,15 +9,15 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {ExerciseMapper.class})
 public interface TrainingPlanMapper {
-    List<TrainingPlanDTO> fromTrainingPLanEntityListToTrainingPlanDTOList(List<TrainingPlanEntity> trainingPlanEntityList);
+    List<TrainingPlanDto> fromTrainingPLanEntityListToTrainingPlanDTOList(List<TrainingPlanEntity> trainingPlanEntityList);
     @Mapping(target = "exerciseDTO" , source = "exercise" )
-    TrainingPlanDTO trainingPlanEntityToTrainingPlanDTO(TrainingPlanEntity trainingPlanEntity);
+    TrainingPlanDto trainingPlanEntityToTrainingPlanDTO(TrainingPlanEntity trainingPlanEntity);
 
-    List<TrainingPlanEntity> fromTrainingPlanDTOListTotrainingPLanEntity(List<TrainingPlanDTO> trainingPlanDTOList);
+    List<TrainingPlanEntity> fromTrainingPlanDTOListTotrainingPLanEntity(List<TrainingPlanDto> trainingPlanDtoList);
     @Mapping(target = "exercise", source = "exerciseDTO")
-    TrainingPlanEntity trainingPlanDTOToTrainingPlanEntity(TrainingPlanDTO trainingPlanDTO);
+    TrainingPlanEntity trainingPlanDTOToTrainingPlanEntity(TrainingPlanDto trainingPlanDTO);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateTrainingPlanFromDTO(TrainingPlanDTO trainingPlanDTO, @MappingTarget TrainingPlanEntity trainingPlanEntity);
+    void updateTrainingPlanFromDTO(TrainingPlanDto trainingPlanDTO, @MappingTarget TrainingPlanEntity trainingPlanEntity);
 
     @AfterMapping
     default void linkExercises(@MappingTarget TrainingPlanEntity entity){
