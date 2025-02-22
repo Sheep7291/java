@@ -13,6 +13,8 @@ services:
       - '5432:5432'
     volumes:
       - postgres_db:/var/lib/postgresql/
+    networks:
+      - my_network
   app:
     build: .
     container_name: training-plan-app
@@ -24,6 +26,11 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres123
     ports:
       - '8080:8080'
+    networks:
+      - my_network
 volumes:
   postgres_db:
     driver: local
+
+networks:
+  my_network:
