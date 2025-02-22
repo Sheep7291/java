@@ -34,19 +34,19 @@ public class TrainingPlanController {
         return countryClient.getAllCountries(language, targetMuscle);
     }
 
-    @GetMapping("/myToday")
+    @GetMapping("/my-today")
     public TrainingPlanDto getMyTrainingPlansForToday(Authentication user){
         String username = user.getName();
         return trainingPlanService.getLoggedUserTrainingPlanForToday(username);
     }
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity<String> createTrainingPlan(@RequestBody TrainingPlanDto trainingPlanDTO, Authentication user){
         String username = user.getName();
         trainingPlanService.createTrainingPlan(trainingPlanDTO, username);
         return ResponseEntity.ok("Training Plan Added successfully");
     }
 
-    @GetMapping("/byUser")
+    @GetMapping("/by-user")
     public List<TrainingPlanDto> getTrainingPlansLoggedUser(Authentication user){
         String username = user.getName();
         return trainingPlanService.getLoggedUserUpcomingTrainingPlans(username);

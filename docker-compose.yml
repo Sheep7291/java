@@ -12,7 +12,18 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgres_db:/var/lib/postgresql/data
+      - postgres_db:/var/lib/postgresql/
+  app:
+    build: .
+    container_name: training-plan-app
+    restart: always
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/postgres_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres123
+    ports:
+      - '8080:8080'
 volumes:
   postgres_db:
     driver: local

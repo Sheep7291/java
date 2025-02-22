@@ -29,19 +29,19 @@ public class TrainingPlanUserController {
     }
 
 
-    @PutMapping("addRole")
+    @PutMapping("add-role")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> addRoleToUser(@RequestParam String username, String roles){
         userService.addRolesToUser(username, roles.toUpperCase());
         return ResponseEntity.ok("Roles to user added successful");
     }
 
-    @GetMapping("/getSelfUsername")
+    @GetMapping("/get-self-username")
     public String currentUserName(Authentication authentication){
         return authentication.getName();
     }
 
-    @GetMapping("/checkIfUserIsLogged")
+    @GetMapping("/check-if-user-is-logged")
     public boolean checkUser(Authentication authentication){
         return  authentication.isAuthenticated();
     }

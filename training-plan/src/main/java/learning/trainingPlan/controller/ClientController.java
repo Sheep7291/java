@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClientController {
     private final ClientService clientService;
 
-    @PostMapping("")
+    @PostMapping("add")
     public ResponseEntity<String> addClient(@RequestBody Client client){
         clientService.addClient(client);
         return ResponseEntity.ok("Client added successfully");

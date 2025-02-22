@@ -20,7 +20,7 @@ public class UserService {
 
     public void addUser(String username, String password, String roles){
         try{
-            IfUserAlreadyExist(username);
+            ifUserAlreadyExist(username);
             TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
             trainingPlanUser.setUsername(username);
             trainingPlanUser.setPassword(bCryptPasswordEncoder.encode(password));
@@ -32,7 +32,7 @@ public class UserService {
 
     }
 
-    public void IfUserAlreadyExist(String username)throws UserAlreadyExistException {
+    public void ifUserAlreadyExist(String username)throws UserAlreadyExistException {
         Optional<TrainingPlanUser> user =trainingPlanUserRepository.findByUsername(username);
         if(user.isPresent()) {
             throw new UserAlreadyExistException("User already exist");
