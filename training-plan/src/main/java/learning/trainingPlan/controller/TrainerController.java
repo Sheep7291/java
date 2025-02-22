@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TrainerController {
     private final TrainerService trainerService;
 
-    @PostMapping("")
+    @PostMapping("") //jak w ClientController
     public ResponseEntity<String> createTrainer(@RequestBody Trainer trainer){
         trainerService.addTrainer(trainer);
         return ResponseEntity.ok("Trainer created successfully");

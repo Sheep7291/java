@@ -2,6 +2,7 @@ package learning.trainingPlan.controller;
 
 import learning.trainingPlan.CountryClient;
 import learning.trainingPlan.dto.ExerciseDTO;
+import learning.trainingPlan.dto.MyObjectDto;
 import learning.trainingPlan.dto.TrainingPlanDTO;
 import learning.trainingPlan.service.ExerciseService;
 import learning.trainingPlan.service.TrainingPlanService;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/trainingPlans")
+@RequestMapping("/api/trainingPlans") //jak w ClientController
 public class TrainingPlanController {
     private final TrainingPlanService trainingPlanService;
     private final ExerciseService exerciseService;
@@ -27,14 +28,14 @@ public class TrainingPlanController {
         return trainingPlanService.getTrainingPlans();
     }
 
-    @GetMapping("countries")
+    @GetMapping("/countries")
     public Object getCountries(@RequestParam String targetMuscle){
         String language = "english";
         return countryClient.getAllCountries(language, targetMuscle);
     }
 
-    @GetMapping("/myToday")
-    public TrainingPlanDTO getMyTrainingPlansForToday(Authentication user){
+    @GetMapping("/myToday") //kebab-case
+    public TrainingPlanDTO getMyTrainingPlansForToday(Authentication user){ //Zamiast DTO na końcu lepiej dać Dto
         String username = user.getName();
         return trainingPlanService.getLoggedUserTrainingPlanForToday(username);
     }
@@ -46,14 +47,15 @@ public class TrainingPlanController {
     }
 
     @GetMapping("/byUser")
-    public List<TrainingPlanDTO> getTrainingPlansLoggedUser(Authentication user){
+    public ResponseEntity<List<TrainingPlanDTO>> getTrainingPlansLoggedUser(Authentication user){
         String username = user.getName();
         return trainingPlanService.getLoggedUserUpcomingTrainingPlans(username);
     }
     @PostMapping("/exercises")
-    public ResponseEntity<String> createExercises(@RequestBody ExerciseDTO exerciseDTO){
+    public ResponseEntity<MyObjectDto> createExercises(@RequestBody ExerciseDTO exerciseDTO){
         exerciseService.createExercise( exerciseDTO);
-        return ResponseEntity.ok("Exercises Added");
+        MyObjectDto myObjectDto = new MyObjectDto("Exercises Added");
+        return ResponseEntity.ok(myObjectDto);
     }
 
     @PutMapping("")
@@ -62,14 +64,15 @@ public class TrainingPlanController {
         return ResponseEntity.ok("Training Plan modified successfully");
     }
 
-    @PutMapping("/move/{days}")
-    public ResponseEntity<String> moveTrainingPlans(@PathVariable int days){
+    @PutMapping("/move")
+    public ResponseEntity<String> moveTrainingPlans(@RequestBody MyObjectDto myObjectDto){
         trainingPlanService.moveTrainingPlansByDays(days);
         return ResponseEntity.ok("Training Plan moved successfully!");
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTrainingPlan(@PathVariable Long id){
+        //validation
         trainingPlanService.deleteTrainingPLan(id);
         return ResponseEntity.ok("Training Plan Deleted successfully!");
     }

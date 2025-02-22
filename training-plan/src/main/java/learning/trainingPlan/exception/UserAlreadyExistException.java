@@ -1,6 +1,6 @@
 package learning.trainingPlan.exception;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus; //unused
 
 public class UserAlreadyExistException extends RuntimeException{
     public UserAlreadyExistException(String message){

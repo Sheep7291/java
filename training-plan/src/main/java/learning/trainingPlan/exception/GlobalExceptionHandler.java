@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler { //do przemyślenia. Można najpierw stsować @ExceptionHandler per Controller. A potem przerzucać do globalnego
     @ExceptionHandler({TrainingPlanNotFoundException.class})
     public ResponseEntity<Object> handleNotFoundPlanException(TrainingPlanNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());

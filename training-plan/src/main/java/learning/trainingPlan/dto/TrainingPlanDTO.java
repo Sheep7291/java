@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Data //jak w ClientDTO
 
 public class TrainingPlanDTO {
     @Schema(description = "id", hidden = true)

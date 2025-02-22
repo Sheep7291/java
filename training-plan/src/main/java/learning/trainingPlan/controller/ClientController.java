@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ClientController {
     private final ClientService clientService;
 
-    @PostMapping("")
-    public ResponseEntity<String> addClient(@RequestBody Client client){
+    @PostMapping("/add")//lepiej nie zostawiać tu pustego stringa "/add" albo /add-client
+    public ResponseEntity<String> addClient(@RequestBody Client client){ //lepiej unikać zwracania samego Stringa. Lepiej stworzyć record z polem stringowym
         clientService.addClient(client);
         return ResponseEntity.ok("Client added successfully");
     }

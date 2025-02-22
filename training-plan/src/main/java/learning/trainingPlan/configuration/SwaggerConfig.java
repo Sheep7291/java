@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SwaggerConfig {
+public class SwaggerConfig { //tu ni ma biblioteki w maven. Pomyślimy na czym polega problem... Może coś z moim środowiskiem
 
     @Bean
     public OpenAPI customOpenAPI() {

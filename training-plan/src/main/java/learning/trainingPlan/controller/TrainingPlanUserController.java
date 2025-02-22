@@ -36,7 +36,7 @@ public class TrainingPlanUserController {
         return ResponseEntity.ok("Roles to user added successful");
     }
 
-    @GetMapping("/getSelfUsername")
+    @GetMapping("/getSelfUsername") //jeżeli stosujesz ResponseEntity stosuj wszędzie
     public String currentUserName(Authentication authentication){
         return authentication.getName();
     }

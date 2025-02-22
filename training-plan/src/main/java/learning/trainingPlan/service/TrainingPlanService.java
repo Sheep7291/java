@@ -64,7 +64,7 @@ public class TrainingPlanService {
         List<TrainingPlanEntity> trainingPlanEntityList = trainingPlanRepository.findByTrainingDateAfter(localDate);
         trainingPlanEntityList = trainingPlanEntityList.
                 stream().
-                map(trainingPlanEntity -> {
+                map(trainingPlanEntity -> { //lepiej peek
                     trainingPlanEntity
                             .setTrainingDate(trainingPlanEntity
                                     .getTrainingDate().

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class ExerciseService {
-    final private ExerciseRepository exerciseRepository;
+    final private ExerciseRepository exerciseRepository; //private final
     private final ExerciseMapper exerciseMapper;
 
     public void createExercise(ExerciseDTO exerciseDTO) {

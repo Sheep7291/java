@@ -19,30 +19,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import java.util.Arrays;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
-public class SecurityConfiguration  {
+public class SecurityConfiguration {
 
     private final TrainingPlanUserService trainingPlanUserService;
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
 
 
-    public SecurityConfiguration(TrainingPlanUserService trainingPlanUserService){
+    public SecurityConfiguration(TrainingPlanUserService trainingPlanUserService) {
         this.trainingPlanUserService = trainingPlanUserService;
     }
 
     @Bean
-    UrlBasedCorsConfigurationSource corsConfigurationSource(){
+    UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); //w nowej java jest List.of(...) zamiast Arrays.asList
         configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
@@ -52,34 +52,34 @@ public class SecurityConfiguration  {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-       return http
-               .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-               .authorizeHttpRequests(
-               authorize -> {
-                   authorize.requestMatchers("/authenticate", "/v3/api-docs/**", "/swagger-ui/**").permitAll();
-                   authorize.requestMatchers(HttpMethod.POST, "api/users/register").permitAll();
-                   authorize.anyRequest().authenticated();
-               }
-       ).formLogin(AbstractHttpConfigurer::disable)
-               .exceptionHandling(ex -> ex
-                       .authenticationEntryPoint((request, response, authException) -> {
-                           response.setContentType("application/json");
-                           response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                           response.getWriter().write("{\"error\": \"Unathorized\"}");
-                       }))
-               .httpBasic(Customizer.withDefaults())
-               .csrf(AbstractHttpConfigurer::disable)
-               .build();
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(
+                        authorize -> {
+                            authorize.requestMatchers("/authenticate", "/v3/api-docs/**", "/swagger-ui/**").permitAll();
+                            authorize.requestMatchers(HttpMethod.POST, "api/users/register").permitAll();
+                            authorize.anyRequest().authenticated();
+                        }
+                ).formLogin(AbstractHttpConfigurer::disable)
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setContentType("application/json");
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.getWriter().write("{\"error\": \"Unathorized\"}"); //tu bym usprawnił dodająć java object i potem objectmapperem tworząć stinga i podać to jako argument
+                        }))
+                .httpBasic(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return trainingPlanUserService;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity)throws Exception{
+    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
         AuthenticationManagerBuilder auth = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
         auth.authenticationProvider(authenticationProvider());
         return auth.build();

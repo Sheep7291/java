@@ -32,7 +32,7 @@ public class UserService {
 
     }
 
-    public void IfUserAlreadyExist(String username)throws UserAlreadyExistException {
+    public void IfUserAlreadyExist(String username)throws UserAlreadyExistException { //z małej litery
         Optional<TrainingPlanUser> user =trainingPlanUserRepository.findByUsername(username);
         if(user.isPresent()) {
             throw new UserAlreadyExistException("User already exist");

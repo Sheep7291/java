@@ -5,7 +5,7 @@ import learning.trainingPlan.entity.Client;
 import java.time.LocalDate;
 import java.util.List;
 
-public class TrainerDTO {
+public class TrainerDTO { //jak w ClientDTO
     private Long id;
     private String username;
     private LocalDate accountStartDate;

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class TrainingPlanUserService implements UserDetailsService {
+public class TrainingPlanUserService implements UserDetailsService { // to bym do security przeniósł
 
     private final TrainingPlanUserRepository trainingPlanUserRepository;
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientService {
 
-    final private ClientRepository clientRepository;
+    final private ClientRepository clientRepository; //private final
 
     public void addClient(Client client){
         clientRepository.save(client);
