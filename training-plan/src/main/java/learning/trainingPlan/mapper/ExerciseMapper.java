@@ -14,7 +14,7 @@ public interface ExerciseMapper {
     @Mapping(target = "trainingPlanEntityId", source = "trainingPlanEntity.id")
     ExerciseDto exerciseToExerciseDTO(Exercise exercise);
 
-    @Mapping(target = "trainingPlanEntity.id" , source = "trainingPlanEntityId", ignore = true)
+    @Mapping(target = "trainingPlanEntity.id" , source = "trainingPlanEntityId")
     Exercise exerciseDTOToExercise(ExerciseDto exerciseDTO);
 
     List<ExerciseDto> fromExerciseListToExerciseDTOList(List<Exercise> exerciseList);
