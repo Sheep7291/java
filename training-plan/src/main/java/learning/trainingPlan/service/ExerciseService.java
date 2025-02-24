@@ -19,7 +19,8 @@ public class ExerciseService {
     private final ExerciseMapper exerciseMapper;
     private final TrainingPlanRepository trainingPlanRepository;
 
-    public void createExercise(ExerciseDto exerciseDTO) {
+    public void createExercise(ExerciseDto exerciseDTO, Long trainingPlanId) {
+        exerciseDTO.setTrainingPlanEntityId(trainingPlanId);
         exerciseRepository.save(exerciseMapper.exerciseDTOToExercise(exerciseDTO));
     }
 

@@ -52,8 +52,8 @@ public class TrainingPlanController {
         return trainingPlanService.getLoggedUserUpcomingTrainingPlans(username);
     }
     @PostMapping("/exercises")
-    public ResponseEntity<String> createExercises(@RequestBody ExerciseDto exerciseDTO){
-        exerciseService.createExercise( exerciseDTO);
+    public ResponseEntity<String> createExercises(@RequestParam Long trainingPlanId, @RequestBody ExerciseDto exerciseDTO){
+        exerciseService.createExercise(exerciseDTO, trainingPlanId);
         return ResponseEntity.ok("Exercises Added");
     }
 
