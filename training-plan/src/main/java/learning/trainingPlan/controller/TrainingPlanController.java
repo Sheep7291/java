@@ -3,6 +3,7 @@ package learning.trainingPlan.controller;
 import learning.trainingPlan.CountryClient;
 import learning.trainingPlan.dto.ExerciseDto;
 import learning.trainingPlan.dto.TrainingPlanDto;
+import learning.trainingPlan.response.ResponseObject;
 import learning.trainingPlan.service.ExerciseService;
 import learning.trainingPlan.service.TrainingPlanService;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +41,11 @@ public class TrainingPlanController {
         return trainingPlanService.getLoggedUserTrainingPlanForToday(username);
     }
     @PostMapping("/add")
-    public ResponseEntity<String> createTrainingPlan(@RequestBody TrainingPlanDto trainingPlanDTO, Authentication user){
+    public ResponseEntity<ResponseObject> createTrainingPlan(@RequestBody TrainingPlanDto trainingPlanDTO, Authentication user){
         String username = user.getName();
+        ResponseObject responseMessage = new ResponseObject("Training Plan added successfully");
         trainingPlanService.createTrainingPlan(trainingPlanDTO, username);
-        return ResponseEntity.ok("Training Plan Added successfully");
+        return ResponseEntity.ok(responseMessage);
     }
 
     @GetMapping("/by-user")

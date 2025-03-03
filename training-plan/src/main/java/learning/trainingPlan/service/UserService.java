@@ -39,6 +39,11 @@ public class UserService {
         }
     }
 
+    public boolean userExist(String username){
+        Optional<TrainingPlanUser> user =trainingPlanUserRepository.findByUsername(username);
+        return user.isPresent();
+    }
+
     public void addRolesToUser(String username, String roles) {
        Optional <TrainingPlanUser> user = trainingPlanUserRepository.findByUsername(username);
        if(user.isPresent()){
