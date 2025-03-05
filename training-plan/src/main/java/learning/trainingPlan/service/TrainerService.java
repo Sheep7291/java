@@ -18,16 +18,21 @@ public class TrainerService {
     private final ClientService clientService;
     private final ClientRepository clientRepository;
 
-public void addTrainer(Trainer trainer){
-    trainerRepository.save(trainer);
-}
+    public void addTrainer(Trainer trainer) {
+        trainerRepository.save(trainer);
+    }
 
-public void getTrainerClients(Trainer trainer){
-    List<Client> clients = clientRepository.findByTrainerId(trainer.getId());
-}
+    public void getTrainerClients(Trainer trainer) {
+        List<Client> clients = clientRepository.findByTrainerId(trainer.getId());
+    }
 
-private Trainer getTrainer(Authentication user){
-    String username = user.getName();
-    return trainerRepository.findByUsername(username);
-}
+    private Trainer getTrainer(Authentication user) {
+        String username = user.getName();
+        return trainerRepository.findByUsername(username);
+    }
+
+    public void addClientToTrainer(Authentication user, String clientUsername) {
+        Trainer trainer = getTrainer(user);
+        clientService.addClientToTrainer(trainer, clientUsername);
+    }
 }

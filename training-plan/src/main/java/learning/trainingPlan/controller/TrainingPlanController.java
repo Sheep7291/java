@@ -25,23 +25,24 @@ public class TrainingPlanController {
 
     @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<TrainingPlanDto> getTrainingPlan(){
+    public List<TrainingPlanDto> getTrainingPlan() {
         return trainingPlanService.getTrainingPlans();
     }
 
     @GetMapping("countries")
-    public Object getCountries(@RequestParam String targetMuscle){
+    public Object getCountries(@RequestParam String targetMuscle) {
         String language = "english";
         return countryClient.getAllCountries(language, targetMuscle);
     }
 
     @GetMapping("/my-today")
-    public TrainingPlanDto getMyTrainingPlansForToday(Authentication user){
+    public TrainingPlanDto getMyTrainingPlansForToday(Authentication user) {
         String username = user.getName();
         return trainingPlanService.getLoggedUserTrainingPlanForToday(username);
     }
+
     @PostMapping("/add")
-    public ResponseEntity<ResponseObject> createTrainingPlan(@RequestBody TrainingPlanDto trainingPlanDTO, Authentication user){
+    public ResponseEntity<ResponseObject> createTrainingPlan(@RequestBody TrainingPlanDto trainingPlanDTO, Authentication user) {
         String username = user.getName();
         ResponseObject responseMessage = new ResponseObject("Training Plan added successfully");
         trainingPlanService.createTrainingPlan(trainingPlanDTO, username);
@@ -49,42 +50,43 @@ public class TrainingPlanController {
     }
 
     @GetMapping("/by-user")
-    public List<TrainingPlanDto> getTrainingPlansLoggedUser(Authentication user){
+    public List<TrainingPlanDto> getTrainingPlansLoggedUser(Authentication user) {
         String username = user.getName();
         return trainingPlanService.getLoggedUserUpcomingTrainingPlans(username);
     }
+
     @PostMapping("/exercises")
-    public ResponseEntity<String> createExercises(@RequestParam Long trainingPlanId, @RequestBody ExerciseDto exerciseDTO){
+    public ResponseEntity<String> createExercises(@RequestParam Long trainingPlanId, @RequestBody ExerciseDto exerciseDTO) {
         exerciseService.createExercise(exerciseDTO, trainingPlanId);
         return ResponseEntity.ok("Exercises Added");
     }
 
     @DeleteMapping("exercises/{id}")
-    public ResponseEntity<String> deleteExercise(@PathVariable Long id){
+    public ResponseEntity<String> deleteExercise(@PathVariable Long id) {
         exerciseService.deleteExercise(id);
         return ResponseEntity.ok("Exercise deleted successfully");
     }
 
     @PostMapping("exercise/add")
-    public ResponseEntity<String> addToTrainingPlan(Authentication user, @RequestParam LocalDate localDate, @RequestBody ExerciseDto exerciseDTO){
+    public ResponseEntity<String> addToTrainingPlan(Authentication user, @RequestParam LocalDate localDate, @RequestBody ExerciseDto exerciseDTO) {
         exerciseService.addExerciseToTrainingPlan(exerciseDTO, user.getName(), localDate);
         return ResponseEntity.ok("Exercises added");
     }
 
     @PutMapping("")
-    public ResponseEntity<String> updateTrainingPlan(@RequestBody TrainingPlanDto trainingPlanDTO){
+    public ResponseEntity<String> updateTrainingPlan(@RequestBody TrainingPlanDto trainingPlanDTO) {
         trainingPlanService.updateTrainingPlan(trainingPlanDTO);
         return ResponseEntity.ok("Training Plan modified successfully");
     }
 
     @PutMapping("/move/{days}")
-    public ResponseEntity<String> moveTrainingPlans(@PathVariable int days){
+    public ResponseEntity<String> moveTrainingPlans(@PathVariable int days) {
         trainingPlanService.moveTrainingPlansByDays(days);
         return ResponseEntity.ok("Training Plan moved successfully!");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTrainingPlan(@PathVariable Long id){
+    public ResponseEntity<String> deleteTrainingPlan(@PathVariable Long id) {
         trainingPlanService.deleteTrainingPLan(id);
         return ResponseEntity.ok("Training Plan Deleted successfully!");
     }

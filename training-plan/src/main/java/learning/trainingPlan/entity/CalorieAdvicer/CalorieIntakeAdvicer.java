@@ -30,7 +30,8 @@ public class CalorieIntakeAdvicer {
                     throw new GenderNotFoundException("There are only two genders, please choose between male and female");
         }
     }
-    public void setcalories(Integer calories){
+
+    public void setcalories(Integer calories) {
         this.calories = calories;
     }
 }
