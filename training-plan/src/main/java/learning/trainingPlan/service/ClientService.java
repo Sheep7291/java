@@ -6,7 +6,6 @@ import learning.trainingPlan.exception.ClientAlreadyHaveTrainerException;
 import learning.trainingPlan.exception.UserAlreadyExistException;
 import learning.trainingPlan.repository.ClientRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,16 +15,14 @@ import java.util.Optional;
 public class ClientService {
 
     final private ClientRepository clientRepository;
-    final private UserService userService;
 
 
     public void addClient(Client client) {
-        if (userService.userExist(client.getUsername()) && clientAccountIsCreated(client.getUsername())) {
+        if (clientAccountIsCreated(client.getUsername())){
             throw new UserAlreadyExistException("Client already exist");
-        } else if (userService.userExist(client.getUsername()) && !clientAccountIsCreated(client.getUsername())) {
+        }
+        else{
             clientRepository.save(client);
-        } else {
-            throw new UsernameNotFoundException("User don't exist");
         }
     }
 
