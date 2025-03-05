@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="trainers")
+@Table(name = "trainers")
 public class Trainer {
     @Schema(hidden = true)
     @Id
@@ -21,7 +21,7 @@ public class Trainer {
     @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Client> clients;
 
-    public boolean isActive(){
+    public boolean isActive() {
         LocalDate today = LocalDate.now();
         return ((accountStartDate != null && accountEndDate != null && !today.isBefore(accountStartDate) && !today.isAfter(accountEndDate)));
     }
