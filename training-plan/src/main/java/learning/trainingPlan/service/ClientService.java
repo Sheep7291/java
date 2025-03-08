@@ -8,6 +8,7 @@ import learning.trainingPlan.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -17,6 +18,13 @@ public class ClientService {
     final private ClientRepository clientRepository;
 
 
+    public List<Client> getClientsByTrainer(Trainer trainer){
+        return clientRepository.findByTrainerId(trainer.getId());
+    }
+
+    public Client getClientByUsername(String clientUsername){
+        return clientRepository.findByUsername(clientUsername);
+    }
     public void addClient(Client client) {
         if (clientAccountIsCreated(client.getUsername())){
             throw new UserAlreadyExistException("Client already exist");
