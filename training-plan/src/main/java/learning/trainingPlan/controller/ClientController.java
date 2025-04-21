@@ -3,14 +3,10 @@ package learning.trainingPlan.controller;
 import learning.trainingPlan.entity.Client;
 import learning.trainingPlan.response.ResponseObject;
 import learning.trainingPlan.service.ClientService;
-import learning.trainingPlan.service.TrainerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,5 +26,11 @@ public class ClientController {
         clientService.quitFromTrainer(clientUsername);
         ResponseObject responseObject = new ResponseObject("Client quit from trainer");
         return ResponseEntity.ok(responseObject);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Client> getClientByUsername(String username){
+        Client client = clientService.getClientByUsername(username);
+        return ResponseEntity.ok(client);
     }
 }
