@@ -35,7 +35,7 @@ public class ClientControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("GET /client/byUsername Unathorized")
+    @DisplayName("GET /client/byUsername Unauthorized")
     void testGetClientByUsernameUnauthorized()throws Exception{
         Trainer mockTrainer = new Trainer();
         mockTrainer.setUsername("Trainer name");
