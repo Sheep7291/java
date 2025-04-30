@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -56,6 +57,7 @@ public class TrainingPlanController {
     }
 
     @PostMapping("/exercises")
+    @Transactional
     public ResponseEntity<String> createExercises(@RequestParam Long trainingPlanId, @RequestBody ExerciseDto exerciseDTO) {
         exerciseService.createExercise(exerciseDTO, trainingPlanId);
         return ResponseEntity.ok("Exercises Added");
@@ -68,6 +70,7 @@ public class TrainingPlanController {
     }
 
     @PostMapping("exercise/add")
+    @Transactional
     public ResponseEntity<String> addToTrainingPlan(Authentication user, @RequestParam LocalDate localDate, @RequestBody ExerciseDto exerciseDTO) {
         exerciseService.addExerciseToTrainingPlan(exerciseDTO, user.getName(), localDate);
         return ResponseEntity.ok("Exercises added");
@@ -80,6 +83,7 @@ public class TrainingPlanController {
     }
 
     @PutMapping("/move/{days}")
+    @Transactional
     public ResponseEntity<String> moveTrainingPlans(@PathVariable int days) {
         trainingPlanService.moveTrainingPlansByDays(days);
         return ResponseEntity.ok("Training Plan moved successfully!");

@@ -1,4 +1,4 @@
-ARG BUILD_IMAGE=maven:3.9.1-eclipse-temurin-17-alipne
+ARG BUILD_IMAGE=maven:3.9.1-eclipse-temurin-17-alpine
 ARG RUNTIME_IMAGE=openjdk:17-jdk-slim
 
 FROM ${BUILD_IMAGE} AS build
