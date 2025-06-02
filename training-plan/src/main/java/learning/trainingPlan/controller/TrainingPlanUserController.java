@@ -1,5 +1,6 @@
 package learning.trainingPlan.controller;
 
+import learning.trainingPlan.response.ResponseObject;
 import learning.trainingPlan.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,24 +17,28 @@ public class TrainingPlanUserController {
 
     @PostMapping("/createSingleUser")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> addUser(@RequestParam String username, @RequestParam String password, @RequestParam String roles) {
+    public ResponseEntity<ResponseObject> addUser(@RequestParam String username, @RequestParam String password, @RequestParam String roles) {
         userService.addUser(username, password, roles);
-        return ResponseEntity.ok("User added");
+        ResponseObject responseObject = new ResponseObject("User added");
+        return ResponseEntity.ok(responseObject);
+
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestParam String username, String password) {
+    public ResponseEntity<ResponseObject> registerUser(@RequestParam String username, String password) {
         String roles = "USER";
         userService.addUser(username, password, roles);
-        return ResponseEntity.ok("User added");
+        ResponseObject responseObject = new ResponseObject("User add");
+        return ResponseEntity.ok(responseObject);
     }
 
 
     @PutMapping("add-role")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> addRoleToUser(@RequestParam String username, String roles) {
+    public ResponseEntity<ResponseObject> addRoleToUser(@RequestParam String username, String roles) {
         userService.addRolesToUser(username, roles.toUpperCase());
-        return ResponseEntity.ok("Roles to user added successful");
+        ResponseObject responseObject = new ResponseObject("Roles to user added succesful");
+        return ResponseEntity.ok(responseObject);
     }
 
     @GetMapping("/get-self-username")

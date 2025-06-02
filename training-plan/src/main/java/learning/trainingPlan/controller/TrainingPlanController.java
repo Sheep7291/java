@@ -1,6 +1,5 @@
 package learning.trainingPlan.controller;
 
-import learning.trainingPlan.CountryClient;
 import learning.trainingPlan.dto.ExerciseDto;
 import learning.trainingPlan.dto.TrainingPlanDto;
 import learning.trainingPlan.response.ResponseObject;
@@ -22,7 +21,6 @@ import java.util.List;
 public class TrainingPlanController {
     private final TrainingPlanService trainingPlanService;
     private final ExerciseService exerciseService;
-    private final CountryClient countryClient;
 
     @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
@@ -30,11 +28,6 @@ public class TrainingPlanController {
         return trainingPlanService.getTrainingPlans();
     }
 
-    @GetMapping("countries")
-    public Object getCountries(@RequestParam String targetMuscle) {
-        String language = "english";
-        return countryClient.getAllCountries(language, targetMuscle);
-    }
 
     @GetMapping("/my-today")
     public TrainingPlanDto getMyTrainingPlansForToday(Authentication user) {

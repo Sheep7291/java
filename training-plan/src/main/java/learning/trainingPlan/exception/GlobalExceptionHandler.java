@@ -3,6 +3,7 @@ package learning.trainingPlan.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import learning.trainingPlan.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,11 +27,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({ClientAlreadyHaveTrainerException.class})
-    public ResponseEntity<Object> handleClientAlreadyHaveTrainerException(ClientAlreadyHaveTrainerException exception, HttpServletRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.CONFLICT.value(), exception.getMessage(), request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.CONFLICT).body((errorResponse));
+    public ProblemDetail handleClientAlreadyHaveTrainerException(ClientAlreadyHaveTrainerException exception) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, exception.getMessage());
     }
 
     @ExceptionHandler({GenderNotFoundException.class})
@@ -49,11 +47,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body((errorResponse));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ProblemDetail handleIllegalArgumentException(IllegalArgumentException exception){
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
+    }
+
     @ExceptionHandler({UserAlreadyExistException.class})
-    public ResponseEntity<Object> handleUserAlreadyExistException(UserAlreadyExistException exception, HttpServletRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.CONFLICT.value(), exception.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    public ProblemDetail handleUserAlreadyExistException(UserAlreadyExistException exception) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, exception.getMessage());
     }
 
     @ExceptionHandler({ClientNotFoundException.class})
