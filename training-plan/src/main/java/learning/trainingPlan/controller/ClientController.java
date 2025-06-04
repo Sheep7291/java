@@ -1,5 +1,6 @@
 package learning.trainingPlan.controller;
 
+import jakarta.validation.Valid;
 import learning.trainingPlan.entity.Client;
 import learning.trainingPlan.response.ResponseObject;
 import learning.trainingPlan.service.ClientService;
@@ -15,7 +16,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @PostMapping("add")
-    public ResponseEntity<String> addClient(@RequestBody Client client) {
+    public ResponseEntity<String> addClient(@Valid @RequestBody Client client) {
         clientService.addClient(client);
         return ResponseEntity.ok("Client added successfully");
     }

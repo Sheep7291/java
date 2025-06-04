@@ -1,5 +1,6 @@
 package learning.trainingPlan.controller;
 
+import jakarta.validation.Valid;
 import learning.trainingPlan.dto.TrainingPlanDto;
 import learning.trainingPlan.entity.Client;
 import learning.trainingPlan.entity.Trainer;
@@ -21,13 +22,13 @@ public class TrainerController {
     private final ClientService clientService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createTrainer(@RequestBody Trainer trainer) {
+    public ResponseEntity<String> createTrainer(@Valid @RequestBody Trainer trainer) {
         trainerService.addTrainer(trainer);
         return ResponseEntity.ok("Trainer created successfully");
     }
 
     @PostMapping("/client/add")
-    public ResponseEntity<ResponseObject> addClient(@RequestBody Client client) {
+    public ResponseEntity<ResponseObject> addClient(@Valid @RequestBody Client client) {
         clientService.addClient(client);
         ResponseObject responseObject = new ResponseObject("Client created");
         return ResponseEntity.ok(responseObject);
