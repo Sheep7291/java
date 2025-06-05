@@ -15,6 +15,20 @@ services:
       - postgres_db:/var/lib/postgresql/
     networks:
       - my_network
+
+  broker:
+    image: apache/activemq-artemis:latest
+    container_name: apache-artemis
+    restart: always
+    environment:
+      - APACHE_USER=artemis
+      - APACHE_PASSWORD=artemis
+
+    ports:
+      - '8161:8161'
+      - '61616:61616'
+
+
   app:
     build: .
     container_name: training-plan-app

@@ -1,5 +1,6 @@
 package learning.trainingPlan.controller;
 
+import jakarta.validation.Valid;
 import learning.trainingPlan.dto.ExerciseDto;
 import learning.trainingPlan.dto.TrainingPlanDto;
 import learning.trainingPlan.response.ResponseObject;
@@ -30,9 +31,9 @@ public class TrainingPlanController {
 
 
     @GetMapping("/my-today")
-    public TrainingPlanDto getMyTrainingPlansForToday(Authentication user) {
+    public ResponseEntity<TrainingPlanDto> getMyTrainingPlansForToday(Authentication user) {
         String username = user.getName();
-        return trainingPlanService.getLoggedUserTrainingPlanForToday(username);
+        return ResponseEntity.ok(trainingPlanService.getLoggedUserTrainingPlanForToday(username));
     }
 
     @PostMapping("/add")
@@ -51,7 +52,7 @@ public class TrainingPlanController {
 
     @PostMapping("/exercises")
     @Transactional
-    public ResponseEntity<String> createExercises(@RequestParam Long trainingPlanId, @RequestBody ExerciseDto exerciseDTO) {
+    public ResponseEntity<String> createExercises(@RequestParam Long trainingPlanId,@Valid @RequestBody ExerciseDto exerciseDTO) {
         exerciseService.createExercise(exerciseDTO, trainingPlanId);
         return ResponseEntity.ok("Exercises Added");
     }
@@ -64,7 +65,7 @@ public class TrainingPlanController {
 
     @PostMapping("exercise/add")
     @Transactional
-    public ResponseEntity<String> addToTrainingPlan(Authentication user, @RequestParam LocalDate localDate, @RequestBody ExerciseDto exerciseDTO) {
+    public ResponseEntity<String> addToTrainingPlan(Authentication user, @RequestParam LocalDate localDate, @Valid @RequestBody ExerciseDto exerciseDTO) {
         exerciseService.addExerciseToTrainingPlan(exerciseDTO, user.getName(), localDate);
         return ResponseEntity.ok("Exercises added");
     }
