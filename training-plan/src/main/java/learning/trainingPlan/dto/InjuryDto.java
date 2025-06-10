@@ -18,4 +18,6 @@ public class InjuryDto implements Serializable {
     private String nameOfInjury;
     @PastOrPresent
     private LocalDate TimeWhenInjuryHappen;
+    @Schema(hidden = true, defaultValue = "training plan maker")
+    private String source;
 }

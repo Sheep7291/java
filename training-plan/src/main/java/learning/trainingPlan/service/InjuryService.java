@@ -11,7 +11,7 @@ public class InjuryService {
     private final JmsTemplate jmsTemplate;
 
     public String addInjury(InjuryDto injuryDto) {
-        jmsTemplate.convertAndSend("DQL", injuryDto);
+        jmsTemplate.convertAndSend("DLQ", injuryDto);
         return "Injury send to service";
     }
 }
