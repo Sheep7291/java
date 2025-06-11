@@ -2,7 +2,7 @@ package learning.trainingPlan.controller;
 
 import jakarta.validation.Valid;
 import learning.trainingPlan.client.InjuryClient;
-import learning.trainingPlan.dto.InjuryDto;
+import learning.trainingPlan.jms.InjuryDto;
 import learning.trainingPlan.response.ResponseObject;
 import learning.trainingPlan.service.InjuryService;
 import lombok.RequiredArgsConstructor;
