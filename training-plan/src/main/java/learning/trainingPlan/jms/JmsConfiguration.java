@@ -15,6 +15,9 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 @EnableJms
 public class JmsConfiguration {
@@ -41,6 +44,9 @@ public ObjectMapper customObjectMapper() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setObjectMapper(customObjectMapper());
         converter.setTargetType(MessageType.TEXT);
+        Map<String, Class<?>> typeidMappings = new HashMap<>();
+        typeidMappings.put("InjuryDto", InjuryDto.class);
+        converter.setTypeIdMappings(typeidMappings);
         converter.setTypeIdPropertyName("_asb_");
         return converter;
     }

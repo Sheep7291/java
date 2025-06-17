@@ -8,10 +8,9 @@ import learning.trainingPlan.service.InjuryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,4 +26,14 @@ public class InjuryController {
         ResponseObject responseObject = new ResponseObject(injuryService.addInjury(injuryDto));
         return ResponseEntity.ok(responseObject);
     }
+
+    @GetMapping("/injuries")
+    ResponseEntity<List<InjuryDto>> getInjuriesByUsername(@RequestParam String username){
+        List<InjuryDto> injuryDtoList = injuryService.getInjuriesByUsername(username);
+        if (injuryDtoList.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(injuryDtoList);
+    }
+
 }
