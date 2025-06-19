@@ -17,7 +17,8 @@ public class InjuryDto  {
     private String username;
     private String nameOfInjury;
     @PastOrPresent
-    private LocalDate TimeWhenInjuryHappen;
+    private LocalDate timeWhenInjuryHappen;
     @Schema(hidden = true)
     private String source;
+    private String injuryDetails;
 }

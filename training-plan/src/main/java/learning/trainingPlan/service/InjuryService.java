@@ -19,8 +19,9 @@ public class InjuryService {
         InjuryDto sendInjuryDto = InjuryDto.builder()
                 .username(injuryDto.getUsername())
                 .nameOfInjury(injuryDto.getNameOfInjury())
-                .TimeWhenInjuryHappen(injuryDto.getTimeWhenInjuryHappen())
+                .timeWhenInjuryHappen(injuryDto.getTimeWhenInjuryHappen())
                 .source("training plan maker")
+                .injuryDetails(injuryDto.getInjuryDetails())
                 .build();
         jmsTemplate.convertAndSend("DLQ", sendInjuryDto);
         return "Injury send to service";
