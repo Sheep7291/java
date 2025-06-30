@@ -8,6 +8,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
@@ -50,5 +52,12 @@ public class TrainingPlanUserController {
     public boolean checkUser(Authentication authentication) {
         return authentication.isAuthenticated();
     }
+
+    @GetMapping("/get-self-roles")
+    public ResponseEntity<ResponseObject> getRoles(Authentication authentication) {
+        ResponseObject responseObject = new ResponseObject(userService.getRolesByUsername(authentication.getName()));
+        return ResponseEntity.ok(responseObject);
+    }
+
 
 }

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface TrainingPlanRepository extends JpaRepository<TrainingPlanEntity, Long> {
     List<TrainingPlanEntity> findFirst10ByOrderById();
@@ -15,5 +16,5 @@ public interface TrainingPlanRepository extends JpaRepository<TrainingPlanEntity
 
     List<TrainingPlanEntity> findByTrainingDateAfter(LocalDate localDate);
 
-    TrainingPlanEntity findByCreatedByAndTrainingDate(String username, LocalDate localDate);
+    Optional<TrainingPlanEntity> findByCreatedByAndTrainingDate(String username, LocalDate localDate);
 }

@@ -18,7 +18,7 @@ public class TrainingPlanEntity {
     @Column(name = "trainingdate")
     private LocalDate trainingDate;
     @OneToMany(mappedBy = "trainingPlanEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Exercise> exercise;
+    private List<Exercise> exercises;
     @Enumerated(EnumType.STRING)
     @Column(name = "statusoftraining")
     private StatusOfTraining statusOfTraining;

@@ -11,12 +11,12 @@ import java.util.List;
 public interface TrainingPlanMapper {
     List<TrainingPlanDto> fromTrainingPLanEntityListToTrainingPlanDTOList(List<TrainingPlanEntity> trainingPlanEntityList);
 
-    @Mapping(target = "exerciseDTO", source = "exercise")
+    @Mapping(target = "exercises", source = "exercises")
     TrainingPlanDto trainingPlanEntityToTrainingPlanDTO(TrainingPlanEntity trainingPlanEntity);
 
     List<TrainingPlanEntity> fromTrainingPlanDTOListTotrainingPLanEntity(List<TrainingPlanDto> trainingPlanDtoList);
 
-    @Mapping(target = "exercise", source = "exerciseDTO")
+    @Mapping(target = "exercises", source = "exercises")
     TrainingPlanEntity trainingPlanDTOToTrainingPlanEntity(TrainingPlanDto trainingPlanDTO);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -24,8 +24,8 @@ public interface TrainingPlanMapper {
 
     @AfterMapping
     default void linkExercises(@MappingTarget TrainingPlanEntity entity) {
-        if (entity.getExercise() != null) {
-            for (Exercise exercise : entity.getExercise()) {
+        if (entity.getExercises() != null) {
+            for (Exercise exercise : entity.getExercises()) {
                 exercise.setTrainingPlanEntity(entity);
             }
         }

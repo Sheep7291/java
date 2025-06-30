@@ -14,7 +14,7 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("My API").version("1.0"))
-                .addSecurityItem(new SecurityRequirement().addList("basicAuth")) // Wymusza Basic Auth
+                .addSecurityItem(new SecurityRequirement().addList("basicAuth"))
                 .components(new io.swagger.v3.oas.models.Components()
                         .addSecuritySchemes("basicAuth", new io.swagger.v3.oas.models.security.SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)

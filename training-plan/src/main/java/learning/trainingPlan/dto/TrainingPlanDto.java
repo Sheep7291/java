@@ -17,7 +17,7 @@ public class TrainingPlanDto {
     @FutureOrPresent
     private LocalDate trainingDate;
     @Size(min = 0, max = 12, message = "Consider if more than 12 exercises in your training plan was really needed")
-    private List<ExerciseDto> exerciseDTO;
+    private List<ExerciseDto> exercises;
     private StatusOfTraining statusOfTraining;
     @Schema(description = "createdBy", hidden = true)
     private String createdBy;

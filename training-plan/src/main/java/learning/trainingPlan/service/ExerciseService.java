@@ -2,8 +2,8 @@ package learning.trainingPlan.service;
 
 import learning.trainingPlan.dto.ExerciseDto;
 import learning.trainingPlan.entity.Exercise;
-import learning.trainingPlan.entity.TrainingPlanEntity;
 import learning.trainingPlan.exception.ExerciseNotFoundException;
+import learning.trainingPlan.exception.TrainingPlanNotFoundException;
 import learning.trainingPlan.mapper.ExerciseMapper;
 import learning.trainingPlan.repository.ExerciseRepository;
 import learning.trainingPlan.repository.TrainingPlanRepository;
@@ -30,10 +30,14 @@ public class ExerciseService {
     }
 
     public void addExerciseToTrainingPlan(ExerciseDto exerciseDTO, String username, LocalDate trainingDate) {
-        TrainingPlanEntity trainingPlanEntity = trainingPlanRepository.findByCreatedByAndTrainingDate(username, trainingDate);
+        var trainingPlanEntity = trainingPlanRepository.findByCreatedByAndTrainingDate(username, trainingDate);
+        if(trainingPlanEntity.isEmpty()){
+            throw new TrainingPlanNotFoundException("Training Plan Not Found");
+        }
         exerciseDTO.setAddedBy(username);
         Exercise exercise = exerciseMapper.exerciseDTOToExercise(exerciseDTO);
-        exercise.setTrainingPlanEntity(trainingPlanEntity);
+        exercise.setTrainingPlanEntity(trainingPlanEntity.get());
         exerciseRepository.save(exercise);
+
     }
 }

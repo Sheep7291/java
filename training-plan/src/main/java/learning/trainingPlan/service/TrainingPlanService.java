@@ -28,12 +28,12 @@ public class TrainingPlanService {
 
     public void createTrainingPlan(TrainingPlanDto trainingPlanDTO, String username) {
         trainingPlanDTO.setCreatedBy(username);
-        List<ExerciseDto> exerciseDtos = trainingPlanDTO.getExerciseDTO();
+        List<ExerciseDto> exerciseDtos = trainingPlanDTO.getExercises();
         exerciseDtos = exerciseDtos.
                 stream()
                 .peek(exerciseDTO -> exerciseDTO.setAddedBy(username))
                 .collect(Collectors.toList());
-        trainingPlanDTO.setExerciseDTO(exerciseDtos);
+        trainingPlanDTO.setExercises(exerciseDtos);
         if (trainingPlanRepository.findByCreatedByAndTrainingDate(username, trainingPlanDTO.getTrainingDate()) == null) {
             trainingPlanRepository.save(trainingPlanMapper.trainingPlanDTOToTrainingPlanEntity(trainingPlanDTO));
         } else
@@ -77,6 +77,11 @@ public class TrainingPlanService {
     public TrainingPlanDto getLoggedUserTrainingPlanForToday(String user) {
         var today = LocalDate.now();
         var trainingPlan = trainingPlanRepository.findByCreatedByAndTrainingDate(user, today);
-        return trainingPlanMapper.trainingPlanEntityToTrainingPlanDTO(trainingPlan);
+        if(trainingPlan.isEmpty()){
+            return null;
+        }
+        else {
+            return trainingPlanMapper.trainingPlanEntityToTrainingPlanDTO(trainingPlan.get());
+        }
     }
 }
