@@ -2,13 +2,13 @@ package learning.trainingPlan.controller;
 
 import learning.trainingPlan.response.ResponseObject;
 import learning.trainingPlan.service.UserService;
+import learning.trainingPlan.validation.validationGroup.OnCreate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class TrainingPlanUserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseObject> registerUser(@RequestParam String username, String password) {
+    public ResponseEntity<ResponseObject> registerUser(@Validated(OnCreate.class) @RequestParam String username, String password) {
         String roles = "USER";
         userService.addUser(username, password, roles);
         ResponseObject responseObject = new ResponseObject("User add");
