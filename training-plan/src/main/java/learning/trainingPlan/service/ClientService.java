@@ -16,6 +16,10 @@ import java.util.Optional;
 @Service
 public class ClientService {
 
+    /*TODO:
+    - należy przemyśleć jak działa aktualny mechanizm i go zaktualizować żeby naprawić mechanizm
+    */
+
     final private ClientRepository clientRepository;
 
 
